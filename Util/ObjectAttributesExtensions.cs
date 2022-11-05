@@ -5,7 +5,7 @@ using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.System.WindowsProgramming;
 
-namespace Nefarius.Drivers.NtDll.Util;
+namespace Nefarius.Utilities.NtDll.Util;
 
 internal static class ObjectAttributesExtensions
 {

@@ -8,10 +8,10 @@ using JetBrains.Annotations;
 
 using Microsoft.Win32.SafeHandles;
 
-using Nefarius.Drivers.NtDll.Types;
-using Nefarius.Drivers.NtDll.Util;
+using Nefarius.Utilities.NtDll.Types;
+using Nefarius.Utilities.NtDll.Util;
 
-namespace Nefarius.Drivers.NtDll.Objects;
+namespace Nefarius.Utilities.NtDll.Objects;
 
 /// <summary>
 ///     Potential exception <see cref="NtSymbolicLinkObject"/> can throw.

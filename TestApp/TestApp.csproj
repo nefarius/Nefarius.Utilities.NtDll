@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Nefarius.Drivers.NtDll.csproj" />
+    <ProjectReference Include="..\Nefarius.Utilities.NtDll.csproj" />
   </ItemGroup>
 
 </Project>

@@ -6,7 +6,7 @@ using Windows.Win32.System.WindowsProgramming;
 
 using Microsoft.Win32.SafeHandles;
 
-namespace Nefarius.Drivers.NtDll.Types;
+namespace Nefarius.Utilities.NtDll.Types;
 
 [StructLayout(LayoutKind.Sequential)]
 internal struct OBJECT_DIRECTORY_INFORMATION

@@ -1,7 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
-using Nefarius.Drivers.NtDll.Objects;
 using Nefarius.Utilities.DeviceManagement.PnP;
+using Nefarius.Utilities.NtDll.Objects;
 
 foreach (NtDirectoryObject globalObject in NtDirectoryObject.GlobalObjects.Where(o => o.IsSymbolicLink))
 {

@@ -9,7 +9,7 @@ using JetBrains.Annotations;
 
 using Microsoft.Win32.SafeHandles;
 
-namespace Nefarius.Drivers.NtDll.Objects;
+namespace Nefarius.Utilities.NtDll.Objects;
 
 /// <summary>
 ///     Potential exception <see cref="NtObject"/> can throw.

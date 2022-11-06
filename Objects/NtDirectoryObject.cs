@@ -102,7 +102,7 @@ public sealed class NtDirectoryObject
                 {
                     status = Native.NtQueryDirectoryObject(handle, buffer, buflen, false, restart, ref ctx, out _);
 
-                    if (status >= 0)
+                    if (status >= NTSTATUS.STATUS_SUCCESS)
                     {
                         MarshalUnmanagedArrayToStruct(buffer, (int)(ctx - start),
                             out OBJECT_DIRECTORY_INFORMATION[] items);
@@ -120,7 +120,7 @@ public sealed class NtDirectoryObject
                         restart = false;
                     }
 
-                    if (status == 0 || status == NTSTATUS.STATUS_NO_MORE_ENTRIES)
+                    if (status == NTSTATUS.STATUS_SUCCESS || status == NTSTATUS.STATUS_NO_MORE_ENTRIES)
                     {
                         break;
                     }

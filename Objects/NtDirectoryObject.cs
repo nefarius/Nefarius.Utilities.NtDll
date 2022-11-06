@@ -78,7 +78,6 @@ public sealed class NtDirectoryObject
         {
             SafeFileHandle handle = null;
             OBJECT_ATTRIBUTES attributes = new();
-            IntPtr buffer = IntPtr.Zero;
 
             try
             {
@@ -94,8 +93,8 @@ public sealed class NtDirectoryObject
                 }
 
                 uint ctx = 0, start = 0;
-                const int buflen = 0x10000;
-                buffer = Marshal.AllocHGlobal(buflen);
+                const int buflen = 1000;
+                var buffer = stackalloc byte[buflen];
                 bool restart = true;
                 List<NtDirectoryObject> objects = new();
 
@@ -131,11 +130,6 @@ public sealed class NtDirectoryObject
             }
             finally
             {
-                if (buffer != IntPtr.Zero)
-                {
-                    Marshal.FreeHGlobal(buffer);
-                }
-
                 handle?.Dispose();
                 attributes.Dispose();
             }
@@ -155,6 +149,18 @@ public sealed class NtDirectoryObject
         for (int i = 0; i < length; i++)
         {
             IntPtr ins = new(unmanagedArray.ToInt64() + (i * size));
+            managedArray[i] = Marshal.PtrToStructure<T>(ins);
+        }
+    }
+
+    private static unsafe void MarshalUnmanagedArrayToStruct<T>(byte* unmanagedArray, int length, out T[] managedArray)
+    {
+        int size = Marshal.SizeOf(typeof(T));
+        managedArray = new T[length];
+
+        for (int i = 0; i < length; i++)
+        {
+            IntPtr ins = new(unmanagedArray + (i * size));
             managedArray[i] = Marshal.PtrToStructure<T>(ins);
         }
     }

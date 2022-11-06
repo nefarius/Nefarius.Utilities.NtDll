@@ -93,7 +93,7 @@ public sealed class NtDirectoryObject
                 }
 
                 uint ctx = 0, start = 0;
-                const int buflen = 1000;
+                const int buflen = 1024;
                 var buffer = stackalloc byte[buflen];
                 bool restart = true;
                 List<NtDirectoryObject> objects = new();

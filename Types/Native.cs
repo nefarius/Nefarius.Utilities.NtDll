@@ -8,6 +8,10 @@ using Microsoft.Win32.SafeHandles;
 
 namespace Nefarius.Utilities.NtDll.Types;
 
+/*
+ * These types are not yet available through CsWin32
+ */
+
 [StructLayout(LayoutKind.Sequential)]
 internal struct OBJECT_DIRECTORY_INFORMATION
 {

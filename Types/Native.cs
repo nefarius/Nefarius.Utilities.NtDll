@@ -57,4 +57,15 @@ internal static class Native
         ref uint context,
         out uint returnLength
     );
+
+    [DllImport("ntdll.dll")]
+    internal static unsafe extern NTSTATUS NtQueryDirectoryObject(
+        SafeFileHandle directoryHandle,
+        void* buffer,
+        uint length,
+        bool returnSingleEntry,
+        bool restartScan,
+        ref uint context,
+        out uint returnLength
+    );
 }

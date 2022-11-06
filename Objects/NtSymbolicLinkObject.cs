@@ -40,6 +40,13 @@ public sealed class NtSymbolicLinkObject
         return LinkTarget;
     }
 
+    [UsedImplicitly]
+    public static NtSymbolicLinkObject GetLinkTarget(NtDirectoryObject obj)
+    {
+        return GetLinkTarget(obj.FullName);
+    }
+
+    [UsedImplicitly]
     public static unsafe NtSymbolicLinkObject GetLinkTarget(string objectName)
     {
         OBJECT_ATTRIBUTES attributes = new();

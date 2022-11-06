@@ -5,7 +5,7 @@ using Nefarius.Utilities.NtDll.Objects;
 
 foreach (NtDirectoryObject globalObject in NtDirectoryObject.GlobalObjects.Where(o => o.IsSymbolicLink))
 {
-    NtSymbolicLinkObject? target = NtSymbolicLinkObject.GetLinkTarget(globalObject.FullName);
+    NtSymbolicLinkObject? target = NtSymbolicLinkObject.GetLinkTarget(globalObject);
 
     if (target is not null && globalObject.Name.Contains("USB"))
     {

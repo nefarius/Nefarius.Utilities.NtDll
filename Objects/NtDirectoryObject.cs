@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Runtime.InteropServices;
 
 using Windows.Win32.Foundation;
 using Windows.Win32.System.WindowsProgramming;
-
-using JetBrains.Annotations;
 
 using Microsoft.Win32.SafeHandles;
 
@@ -18,6 +17,9 @@ namespace Nefarius.Utilities.NtDll.Objects;
 /// <summary>
 ///     Potential exception <see cref="NtDirectoryObject" /> can throw.
 /// </summary>
+[SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
+[SuppressMessage("ReSharper", "UnusedMember.Global")]
+[SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
 public sealed class NtDirectoryObjectException : Exception
 {
     internal NtDirectoryObjectException(string message, NTSTATUS status) : base(message)
@@ -28,40 +30,38 @@ public sealed class NtDirectoryObjectException : Exception
     /// <summary>
     ///     The NTSTATUS code of the failed call.
     /// </summary>
-    [UsedImplicitly]
     public uint Status { get; }
 }
 
+[SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
+[SuppressMessage("ReSharper", "UnusedMember.Global")]
+[SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
+[SuppressMessage("ReSharper", "UnusedMember.Local")]
 public sealed class NtDirectoryObject
 {
     /// <summary>
     ///     Gets the object name without the namespace prefix.
     /// </summary>
-    [UsedImplicitly]
-    public string Name { get; internal set; }
+    public string Name { get; internal init; }
 
     /// <summary>
     ///     Gets the object type.
     /// </summary>
-    [UsedImplicitly]
-    public string TypeName { get; internal set; }
+    public string TypeName { get; internal init; }
 
     /// <summary>
     ///     Gets the full object path including the namespace.
     /// </summary>
-    [UsedImplicitly]
     public string FullName => $"{GlobalPrefix}\\{Name}";
 
     /// <summary>
     ///     Gets the symbolic link path in a format for CreateFile, CM APIs etc.
     /// </summary>
-    [UsedImplicitly]
     public string Path => @$"\\?\{Name}";
 
     /// <summary>
     ///     Gets the global objects namespace prefix.
     /// </summary>
-    [UsedImplicitly]
     public static string GlobalPrefix => @"\GLOBAL??";
 
     /// <summary>
@@ -94,7 +94,7 @@ public sealed class NtDirectoryObject
 
                 uint ctx = 0, start = 0;
                 const int buflen = 1024;
-                var buffer = stackalloc byte[buflen];
+                byte* buffer = stackalloc byte[buflen];
                 bool restart = true;
                 List<NtDirectoryObject> objects = new();
 

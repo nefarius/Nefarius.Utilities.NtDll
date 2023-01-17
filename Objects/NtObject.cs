@@ -1,19 +1,21 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 
 using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.System.WindowsProgramming;
 
-using JetBrains.Annotations;
-
 using Microsoft.Win32.SafeHandles;
 
 namespace Nefarius.Utilities.NtDll.Objects;
 
 /// <summary>
-///     Potential exception <see cref="NtObject"/> can throw.
+///     Potential exception <see cref="NtObject" /> can throw.
 /// </summary>
+[SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
+[SuppressMessage("ReSharper", "UnusedMember.Global")]
+[SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
 public sealed class NtObjectException : Exception
 {
     internal NtObjectException(string message, NTSTATUS status) : base(message)
@@ -24,16 +26,16 @@ public sealed class NtObjectException : Exception
     /// <summary>
     ///     The NTSTATUS code of the failed call.
     /// </summary>
-    [UsedImplicitly]
     public uint Status { get; }
 }
 
+[SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
+[SuppressMessage("ReSharper", "UnusedMember.Global")]
+[SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
 public sealed class NtObject
 {
-    [UsedImplicitly]
     public string Name { get; internal set; }
 
-    [UsedImplicitly]
     public static unsafe NtObject GetFromHandle(SafeFileHandle handle)
     {
         UNICODE_STRING objName;

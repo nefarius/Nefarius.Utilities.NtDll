@@ -1,10 +1,9 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 
 using Windows.Win32.Foundation;
 using Windows.Win32.System.WindowsProgramming;
-
-using JetBrains.Annotations;
 
 using Microsoft.Win32.SafeHandles;
 
@@ -14,8 +13,11 @@ using Nefarius.Utilities.NtDll.Util;
 namespace Nefarius.Utilities.NtDll.Objects;
 
 /// <summary>
-///     Potential exception <see cref="NtSymbolicLinkObject"/> can throw.
+///     Potential exception <see cref="NtSymbolicLinkObject" /> can throw.
 /// </summary>
+[SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
+[SuppressMessage("ReSharper", "UnusedMember.Global")]
+[SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
 public sealed class NtSymbolicLinkObjectException : Exception
 {
     internal NtSymbolicLinkObjectException(string message, NTSTATUS status) : base(message)
@@ -26,13 +28,14 @@ public sealed class NtSymbolicLinkObjectException : Exception
     /// <summary>
     ///     The NTSTATUS code of the failed call.
     /// </summary>
-    [UsedImplicitly]
     public uint Status { get; }
 }
 
+[SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
+[SuppressMessage("ReSharper", "UnusedMember.Global")]
+[SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
 public sealed class NtSymbolicLinkObject
 {
-    [UsedImplicitly]
     public string LinkTarget { get; internal set; }
 
     public override string ToString()
@@ -40,13 +43,11 @@ public sealed class NtSymbolicLinkObject
         return LinkTarget;
     }
 
-    [UsedImplicitly]
     public static NtSymbolicLinkObject GetLinkTarget(NtDirectoryObject obj)
     {
         return GetLinkTarget(obj.FullName);
     }
 
-    [UsedImplicitly]
     public static unsafe NtSymbolicLinkObject GetLinkTarget(string objectName)
     {
         OBJECT_ATTRIBUTES attributes = new();

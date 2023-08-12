@@ -70,7 +70,10 @@ public sealed class SystemHandle
 
             foreach (SYSTEM_HANDLE_TABLE_ENTRY_INFO handle in handleItems)
             {
-                
+                if (handle.ProcessId != 0)
+                {
+                    var t = 0;
+                }
             }
         }
         finally

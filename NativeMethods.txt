@@ -1,6 +1,7 @@
 ﻿WIN32_ERROR
 CreateFile
 DeviceIoControl
+DuplicateHandle
 METHOD_BUFFERED
 FILE_DEVICE_BLUETOOTH
 FILE_ANY_ACCESS

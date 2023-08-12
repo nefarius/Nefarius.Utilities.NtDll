@@ -58,18 +58,18 @@ public sealed class SystemHandle
                 throw new SystemHandleException("NtQuerySystemInformation failed", status);
             }
 
-            int handleCount = Marshal.ReadInt32(handleInfo);
+            int handleCount = IntPtr.Size == 4 ? Marshal.ReadInt32(handleInfo) : (int)Marshal.ReadInt64(handleInfo);
             IntPtr handleInfoPtr = handleInfo + IntPtr.Size;
 
             MarshalUtils.MarshalUnmanagedArrayToStruct(
                 handleInfoPtr,
                 handleCount,
-                out SYSTEM_HANDLE_TABLE_ENTRY_INFO_X64[] handleItems
+                out SYSTEM_HANDLE_TABLE_ENTRY_INFO[] handleItems
             );
 
-            foreach (SYSTEM_HANDLE_TABLE_ENTRY_INFO_X64 handle in handleItems)
+            foreach (SYSTEM_HANDLE_TABLE_ENTRY_INFO handle in handleItems)
             {
-                if (handle.ProcessId != 0)
+                if (handle.UniqueProcessId != 0)
                 {
                     Debugger.Break();
                 }

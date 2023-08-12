@@ -88,4 +88,26 @@ internal static class Native
         uint SystemInformationLength,
         out uint ReturnLength
     );
+    
+    [DllImport("ntdll.dll")]
+    public static extern NTSTATUS NtDuplicateObject(
+        SafeHandle SourceProcessHandle,
+        IntPtr SourceHandle,
+        SafeHandle TargetProcessHandle,
+        out IntPtr TargetHandle,
+        UInt32 DesiredAccess,
+        UInt32 HandleAttributes,
+        UInt32 Options
+    );
+
+    [DllImport("ntdll.dll")]
+    public static extern NTSTATUS NtDuplicateObject(
+        SafeHandle SourceProcessHandle,
+        IntPtr SourceHandle,
+        IntPtr TargetProcessHandle,
+        IntPtr TargetHandle,
+        UInt32 DesiredAccess,
+        UInt32 HandleAttributes,
+        UInt32 Options
+    );
 }

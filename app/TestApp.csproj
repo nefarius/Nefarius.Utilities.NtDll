@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Nefarius.Utilities.NtDll.csproj" />
+    <ProjectReference Include="..\lib\Nefarius.Utilities.NtDll.csproj" />
   </ItemGroup>
 
 </Project>

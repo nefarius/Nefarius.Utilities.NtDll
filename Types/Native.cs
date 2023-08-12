@@ -80,7 +80,7 @@ internal static class Native
         uint SystemInformationLength,
         out uint ReturnLength
     );
-    
+
     [DllImport("ntdll.dll", PreserveSig = false)]
     internal static unsafe extern void NtQuerySystemInformation(
         SYSTEM_INFORMATION_CLASS SystemInformationClass,
@@ -88,9 +88,9 @@ internal static class Native
         uint SystemInformationLength,
         out uint ReturnLength
     );
-    
+
     [DllImport("ntdll.dll")]
-    public static extern NTSTATUS NtDuplicateObject(
+    internal static extern NTSTATUS NtDuplicateObject(
         SafeHandle SourceProcessHandle,
         IntPtr SourceHandle,
         SafeHandle TargetProcessHandle,
@@ -101,7 +101,7 @@ internal static class Native
     );
 
     [DllImport("ntdll.dll")]
-    public static extern NTSTATUS NtDuplicateObject(
+    internal static extern NTSTATUS NtDuplicateObject(
         SafeHandle SourceProcessHandle,
         IntPtr SourceHandle,
         IntPtr TargetProcessHandle,
@@ -109,5 +109,23 @@ internal static class Native
         UInt32 DesiredAccess,
         UInt32 HandleAttributes,
         UInt32 Options
+    );
+
+    [DllImport("ntdll.dll")]
+    internal static extern UInt32 NtQueryObject(
+        IntPtr objectHandle,
+        OBJECT_INFORMATION_CLASS informationClass,
+        IntPtr informationPtr,
+        UInt32 informationLength,
+        ref UInt32 returnLength
+    );
+    
+    [DllImport("ntdll.dll")]
+    internal static unsafe extern NTSTATUS NtQueryObject(
+        HANDLE objectHandle,
+        OBJECT_INFORMATION_CLASS informationClass,
+        [Optional] void* informationPtr,
+        UInt32 informationLength,
+        [Optional] uint* returnLength
     );
 }

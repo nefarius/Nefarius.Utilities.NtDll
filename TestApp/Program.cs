@@ -14,14 +14,12 @@ foreach (NtDirectoryObject globalObject in NtDirectoryObject.GlobalObjects.Where
         try
         {
             var device = PnPDevice.GetInstanceIdFromInterfaceId(globalObject.Path);
+            
+            Console.WriteLine($"Enumerated device {device}");
         }
         catch
         {
             continue;
         }
-
-        var t = 0;
     }
 }
-
-Console.ReadKey();

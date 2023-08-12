@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Nefarius.Utilities.DeviceManagement" Version="3.3.196" />
+    <PackageReference Include="Nefarius.Utilities.DeviceManagement" Version="3.14.305" />
   </ItemGroup>
 
   <ItemGroup>

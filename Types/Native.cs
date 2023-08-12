@@ -72,4 +72,20 @@ internal static class Native
         ref uint context,
         out uint returnLength
     );
+
+    [DllImport("ntdll.dll", PreserveSig = false)]
+    internal static extern void NtQuerySystemInformation(
+        SYSTEM_INFORMATION_CLASS SystemInformationClass,
+        IntPtr SystemInformation,
+        uint SystemInformationLength,
+        out uint ReturnLength
+    );
+    
+    [DllImport("ntdll.dll", PreserveSig = false)]
+    internal static unsafe extern void NtQuerySystemInformation(
+        SYSTEM_INFORMATION_CLASS SystemInformationClass,
+        void* SystemInformation,
+        uint SystemInformationLength,
+        out uint ReturnLength
+    );
 }

@@ -4,7 +4,7 @@ using Nefarius.Utilities.DeviceManagement.PnP;
 using Nefarius.Utilities.NtDll.Handles;
 using Nefarius.Utilities.NtDll.Objects;
 
-SystemHandle.Test();
+var h = SystemHandle.AllHandles;
 
 foreach (NtDirectoryObject globalObject in NtDirectoryObject.GlobalObjects.Where(o => o.IsSymbolicLink))
 {

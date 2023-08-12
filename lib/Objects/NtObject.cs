@@ -30,6 +30,9 @@ public sealed class NtObjectException : Exception
     public uint Status { get; }
 }
 
+/// <summary>
+///     Represents an NT Object.
+/// </summary>
 [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
 [SuppressMessage("ReSharper", "UnusedMember.Global")]
 [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]

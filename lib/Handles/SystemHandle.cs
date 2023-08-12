@@ -1,6 +1,7 @@
 ﻿using System;
-using System.Diagnostics;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Runtime.InteropServices;
 
 using Windows.Win32.Foundation;
@@ -30,54 +31,65 @@ public sealed class SystemHandleException : Exception
     public uint Status { get; }
 }
 
+/// <summary>
+///     Represents a handle.
+/// </summary>
 public sealed class SystemHandle
 {
-    public static void Test()
+    private readonly SYSTEM_HANDLE_TABLE_ENTRY_INFO _handle;
+
+    private SystemHandle(SYSTEM_HANDLE_TABLE_ENTRY_INFO handle)
     {
-        uint handleInfoSize = 0x10000;
-        IntPtr handleInfo = Marshal.AllocHGlobal((int)handleInfoSize);
+        _handle = handle;
+    }
 
-        try
+    /// <summary>
+    ///     Enumerates all open handles on the system.
+    /// </summary>
+    /// <exception cref="SystemHandleException"></exception>
+    public static IEnumerable<SystemHandle> AllHandles
+    {
+        get
         {
-            NTSTATUS status;
+            uint handleInfoSize = 0x10000;
+            IntPtr handleInfo = Marshal.AllocHGlobal((int)handleInfoSize);
 
-            while ((status = Native.NtQuerySystemInformation(
-                       SYSTEM_INFORMATION_CLASS.SystemHandleInformation,
-                       handleInfo,
-                       handleInfoSize,
-                       out _
-                   )) == NTSTATUS.STATUS_INFO_LENGTH_MISMATCH)
+            try
             {
-                handleInfoSize *= 2;
-                Marshal.FreeHGlobal(handleInfo);
-                handleInfo = Marshal.AllocHGlobal((int)handleInfoSize);
-            }
+                NTSTATUS status;
 
-            if (status != NTSTATUS.STATUS_SUCCESS)
-            {
-                throw new SystemHandleException("NtQuerySystemInformation failed", status);
-            }
-
-            int handleCount = IntPtr.Size == 4 ? Marshal.ReadInt32(handleInfo) : (int)Marshal.ReadInt64(handleInfo);
-            IntPtr handleInfoPtr = handleInfo + IntPtr.Size;
-
-            MarshalUtils.MarshalUnmanagedArrayToStruct(
-                handleInfoPtr,
-                handleCount,
-                out SYSTEM_HANDLE_TABLE_ENTRY_INFO[] handleItems
-            );
-
-            foreach (SYSTEM_HANDLE_TABLE_ENTRY_INFO handle in handleItems)
-            {
-                if (handle.UniqueProcessId != 0)
+                while ((status = Native.NtQuerySystemInformation(
+                           SYSTEM_INFORMATION_CLASS.SystemHandleInformation,
+                           handleInfo,
+                           handleInfoSize,
+                           out _
+                       )) == NTSTATUS.STATUS_INFO_LENGTH_MISMATCH)
                 {
-                    Debugger.Break();
+                    handleInfoSize *= 2;
+                    Marshal.FreeHGlobal(handleInfo);
+                    handleInfo = Marshal.AllocHGlobal((int)handleInfoSize);
                 }
+
+                if (status != NTSTATUS.STATUS_SUCCESS)
+                {
+                    throw new SystemHandleException("NtQuerySystemInformation failed", status);
+                }
+
+                int handleCount = IntPtr.Size == 4 ? Marshal.ReadInt32(handleInfo) : (int)Marshal.ReadInt64(handleInfo);
+                IntPtr handleInfoPtr = handleInfo + IntPtr.Size;
+
+                MarshalUtils.MarshalUnmanagedArrayToStruct(
+                    handleInfoPtr,
+                    handleCount,
+                    out SYSTEM_HANDLE_TABLE_ENTRY_INFO[] handleItems
+                );
+
+                return handleItems.Select(e => new SystemHandle(e));
             }
-        }
-        finally
-        {
-            Marshal.FreeHGlobal(handleInfo);
+            finally
+            {
+                Marshal.FreeHGlobal(handleInfo);
+            }
         }
     }
 }

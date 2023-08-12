@@ -11,3 +11,5 @@ Managed wrappers around NTDLL native APIs on Windows.
 - [HOWTO: Enumerate handles](http://web.archive.org/web/20161210010928/http://forum.sysinternals.com/howto-enumerate-handles_topic18892.html)
   - [Sample code](http://web.archive.org/web/20161210010928/http://forum.sysinternals.com/uploads/26792/handles.zip)
 - [LockLess](https://github.com/GhostPack/Lockless)
+- [SYSTEM_HANDLE_TABLE_ENTRY_INFO](https://www.geoffchappell.com/studies/windows/km/ntoskrnl/api/ex/sysinfo/handle_table_entry.htm)
+- [OBJECT_INFORMATION_CLASS](https://geoffchappell.com/studies/windows/km/ntoskrnl/inc/api/ntobapi_x/object_information_class.htm)

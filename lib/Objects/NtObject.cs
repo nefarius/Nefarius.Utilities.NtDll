@@ -47,7 +47,7 @@ public sealed class NtObject
         NTSTATUS ret = Native.NtQueryObject(handle, (OBJECT_INFORMATION_CLASS)1, &objName,
             (uint)Marshal.SizeOf<UNICODE_STRING>(), &sizeRequired);
 
-        if (ret != NTSTATUS.STATUS_SUCCESS)
+        if (ret != NTSTATUS.STATUS_SUCCESS /* && ret != NTSTATUS.STATUS_BUFFER_OVERFLOW */)
         {
             throw new NtObjectException("NtQueryObject failed.", ret);
         }

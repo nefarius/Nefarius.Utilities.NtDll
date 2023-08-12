@@ -1,10 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Runtime.InteropServices;
 
+using Windows.Win32;
 using Windows.Win32.Foundation;
+using Windows.Win32.System.Threading;
+
+using Microsoft.Win32.SafeHandles;
 
 using Nefarius.Utilities.NtDll.Objects;
 using Nefarius.Utilities.NtDll.Types;
@@ -25,6 +30,11 @@ public sealed class SystemHandleException : Exception
         Status = status;
     }
 
+    internal SystemHandleException(string message, WIN32_ERROR error) : base(message)
+    {
+        Status = (uint)error;
+    }
+
     /// <summary>
     ///     The NTSTATUS code of the failed call.
     /// </summary>
@@ -41,6 +51,51 @@ public sealed class SystemHandle
     private SystemHandle(SYSTEM_HANDLE_TABLE_ENTRY_INFO handle)
     {
         _handle = handle;
+    }
+
+    public uint ProcessId => _handle.UniqueProcessId;
+
+    public string Name
+    {
+        get
+        {
+            if (_handle.UniqueProcessId == 4)
+            {
+                throw new InvalidOperationException("System processes (PID 4) are not safe and not supported");
+            }
+
+            HANDLE process = PInvoke.OpenProcess(
+                PROCESS_ACCESS_RIGHTS.PROCESS_DUP_HANDLE,
+                false,
+                _handle.UniqueProcessId
+            );
+
+            if (process.IsNull)
+            {
+                throw new SystemHandleException("OpenProcess failed", (WIN32_ERROR)Marshal.GetLastWin32Error());
+            }
+
+            NTSTATUS status = Native.NtDuplicateObject(
+                process,
+                (IntPtr)_handle.HandleValue,
+                Process.GetCurrentProcess().SafeHandle,
+                out SafeFileHandle dupHandle,
+                0,
+                0,
+                0
+            );
+
+            if (status != NTSTATUS.STATUS_SUCCESS)
+            {
+                throw new SystemHandleException("NtDuplicateObject failed", status);
+            }
+
+            NtObject obj = NtObject.GetFromHandle(dupHandle);
+            
+            dupHandle.Dispose();
+
+            return obj.Name;
+        }
     }
 
     /// <summary>

@@ -99,7 +99,41 @@ internal static class Native
         UInt32 HandleAttributes,
         UInt32 Options
     );
+    
+    [DllImport("ntdll.dll")]
+    internal static extern NTSTATUS NtDuplicateObject(
+        HANDLE SourceProcessHandle,
+        IntPtr SourceHandle,
+        SafeHandle TargetProcessHandle,
+        out IntPtr TargetHandle,
+        UInt32 DesiredAccess,
+        UInt32 HandleAttributes,
+        UInt32 Options
+    );
+    
+    [DllImport("ntdll.dll")]
+    internal static extern NTSTATUS NtDuplicateObject(
+        HANDLE SourceProcessHandle,
+        IntPtr SourceHandle,
+        SafeHandle TargetProcessHandle,
+        out HANDLE TargetHandle,
+        UInt32 DesiredAccess,
+        UInt32 HandleAttributes,
+        UInt32 Options
+    );
 
+    [DllImport("ntdll.dll")]
+    internal static extern NTSTATUS NtDuplicateObject(
+        HANDLE SourceProcessHandle,
+        IntPtr SourceHandle,
+        SafeHandle TargetProcessHandle,
+        out SafeFileHandle TargetHandle,
+        UInt32 DesiredAccess,
+        UInt32 HandleAttributes,
+        UInt32 Options
+    );
+
+    
     [DllImport("ntdll.dll")]
     internal static extern NTSTATUS NtDuplicateObject(
         SafeHandle SourceProcessHandle,

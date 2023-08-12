@@ -59,15 +59,15 @@ public sealed class SystemHandle
             }
 
             int handleCount = Marshal.ReadInt32(handleInfo);
-            IntPtr handleInfoPtr = handleInfo + sizeof(int);
+            IntPtr handleInfoPtr = handleInfo + IntPtr.Size;
 
             MarshalUtils.MarshalUnmanagedArrayToStruct(
                 handleInfoPtr,
                 handleCount,
-                out SYSTEM_HANDLE_TABLE_ENTRY_INFO[] handleItems
+                out SYSTEM_HANDLE_TABLE_ENTRY_INFO_X64[] handleItems
             );
 
-            foreach (SYSTEM_HANDLE_TABLE_ENTRY_INFO handle in handleItems)
+            foreach (SYSTEM_HANDLE_TABLE_ENTRY_INFO_X64 handle in handleItems)
             {
                 if (handle.ProcessId != 0)
                 {

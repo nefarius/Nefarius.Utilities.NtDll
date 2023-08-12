@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 
@@ -31,7 +32,7 @@ public sealed class SystemHandleException : Exception
 
 public sealed class SystemHandle
 {
-    public static unsafe void Test()
+    public static void Test()
     {
         uint handleInfoSize = 0x10000;
         IntPtr handleInfo = Marshal.AllocHGlobal((int)handleInfoSize);
@@ -57,14 +58,12 @@ public sealed class SystemHandle
                 throw new SystemHandleException("NtQuerySystemInformation failed", status);
             }
 
-            SYSTEM_HANDLE_INFORMATION handleInfoHeader = Marshal.PtrToStructure<SYSTEM_HANDLE_INFORMATION>(handleInfo);
-
-            // jump to start of array
-            byte* payloadBuffer = (byte*)handleInfo.ToPointer() + Marshal.SizeOf(handleInfoHeader.HandleCount);
+            int handleCount = Marshal.ReadInt32(handleInfo);
+            IntPtr handleInfoPtr = handleInfo + sizeof(int);
 
             MarshalUtils.MarshalUnmanagedArrayToStruct(
-                payloadBuffer,
-                (int)handleInfoHeader.HandleCount,
+                handleInfoPtr,
+                handleCount,
                 out SYSTEM_HANDLE_TABLE_ENTRY_INFO[] handleItems
             );
 
@@ -72,7 +71,7 @@ public sealed class SystemHandle
             {
                 if (handle.ProcessId != 0)
                 {
-                    var t = 0;
+                    Debugger.Break();
                 }
             }
         }

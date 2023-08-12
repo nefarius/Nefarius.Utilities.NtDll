@@ -6,12 +6,12 @@ namespace Nefarius.Utilities.NtDll.Types;
 
 [StructLayout(LayoutKind.Sequential)]
 [SuppressMessage("ReSharper", "InconsistentNaming")]
-internal unsafe struct SYSTEM_HANDLE_TABLE_ENTRY_INFO
+internal struct SYSTEM_HANDLE_TABLE_ENTRY_INFO
 {
     public UInt32 ProcessId;
     public byte ObjectTypeNumber;
     public byte Flags;
     public UInt16 Handle;
-    public void* Object;
+    public IntPtr Object;
     public UInt32 GrantedAccess;
 }

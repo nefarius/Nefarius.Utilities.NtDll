@@ -73,17 +73,17 @@ internal static class Native
         out uint returnLength
     );
 
-    [DllImport("ntdll.dll", PreserveSig = false)]
-    internal static extern void NtQuerySystemInformation(
-        SYSTEM_INFORMATION_CLASS SystemInformationClass,
+    [DllImport("ntdll.dll")]
+    internal static extern NTSTATUS NtQuerySystemInformation(
+        [MarshalAs(UnmanagedType.U4)] SYSTEM_INFORMATION_CLASS SystemInformationClass,
         IntPtr SystemInformation,
         uint SystemInformationLength,
         out uint ReturnLength
     );
 
-    [DllImport("ntdll.dll", PreserveSig = false)]
-    internal static unsafe extern void NtQuerySystemInformation(
-        SYSTEM_INFORMATION_CLASS SystemInformationClass,
+    [DllImport("ntdll.dll")]
+    internal static unsafe extern NTSTATUS NtQuerySystemInformation(
+        [MarshalAs(UnmanagedType.U4)] SYSTEM_INFORMATION_CLASS SystemInformationClass,
         void* SystemInformation,
         uint SystemInformationLength,
         out uint ReturnLength
@@ -119,7 +119,7 @@ internal static class Native
         UInt32 informationLength,
         ref UInt32 returnLength
     );
-    
+
     [DllImport("ntdll.dll")]
     internal static unsafe extern NTSTATUS NtQueryObject(
         HANDLE objectHandle,
@@ -128,7 +128,7 @@ internal static class Native
         UInt32 informationLength,
         [Optional] uint* returnLength
     );
-    
+
     [DllImport("ntdll.dll")]
     internal static unsafe extern NTSTATUS NtQueryObject(
         SafeHandle objectHandle,

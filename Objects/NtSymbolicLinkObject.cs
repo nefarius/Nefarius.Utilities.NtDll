@@ -2,8 +2,8 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 
+using Windows.Wdk.Foundation;
 using Windows.Win32.Foundation;
-using Windows.Win32.System.WindowsProgramming;
 
 using Microsoft.Win32.SafeHandles;
 

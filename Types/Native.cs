@@ -2,8 +2,8 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 
+using Windows.Wdk.Foundation;
 using Windows.Win32.Foundation;
-using Windows.Win32.System.WindowsProgramming;
 
 using Microsoft.Win32.SafeHandles;
 
@@ -123,6 +123,15 @@ internal static class Native
     [DllImport("ntdll.dll")]
     internal static unsafe extern NTSTATUS NtQueryObject(
         HANDLE objectHandle,
+        OBJECT_INFORMATION_CLASS informationClass,
+        [Optional] void* informationPtr,
+        UInt32 informationLength,
+        [Optional] uint* returnLength
+    );
+    
+    [DllImport("ntdll.dll")]
+    internal static unsafe extern NTSTATUS NtQueryObject(
+        SafeHandle objectHandle,
         OBJECT_INFORMATION_CLASS informationClass,
         [Optional] void* informationPtr,
         UInt32 informationLength,

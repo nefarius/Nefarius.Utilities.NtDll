@@ -6,6 +6,7 @@ using Windows.Win32.Foundation;
 
 using Nefarius.Utilities.NtDll.Objects;
 using Nefarius.Utilities.NtDll.Types;
+using Nefarius.Utilities.NtDll.Util;
 
 namespace Nefarius.Utilities.NtDll.Handles;
 
@@ -30,7 +31,7 @@ public sealed class SystemHandleException : Exception
 
 public sealed class SystemHandle
 {
-    public static void Test()
+    public static unsafe void Test()
     {
         uint handleInfoSize = 0x10000;
         IntPtr handleInfo = Marshal.AllocHGlobal((int)handleInfoSize);
@@ -56,7 +57,21 @@ public sealed class SystemHandle
                 throw new SystemHandleException("NtQuerySystemInformation failed", status);
             }
 
-            var handleInfoHeader = Marshal.PtrToStructure<SYSTEM_HANDLE_INFORMATION>(handleInfo);
+            SYSTEM_HANDLE_INFORMATION handleInfoHeader = Marshal.PtrToStructure<SYSTEM_HANDLE_INFORMATION>(handleInfo);
+
+            // jump to start of array
+            byte* payloadBuffer = (byte*)handleInfo.ToPointer() + Marshal.SizeOf(handleInfoHeader.HandleCount);
+
+            MarshalUtils.MarshalUnmanagedArrayToStruct(
+                payloadBuffer,
+                (int)handleInfoHeader.HandleCount,
+                out SYSTEM_HANDLE_TABLE_ENTRY_INFO[] handleItems
+            );
+
+            foreach (SYSTEM_HANDLE_TABLE_ENTRY_INFO handle in handleItems)
+            {
+                
+            }
         }
         finally
         {

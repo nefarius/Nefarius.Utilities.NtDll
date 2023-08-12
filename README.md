@@ -9,4 +9,5 @@ Managed wrappers around NTDLL native APIs on Windows.
 ## Sources & 3rd party credits
 
 - [HOWTO: Enumerate handles](http://web.archive.org/web/20161210010928/http://forum.sysinternals.com/howto-enumerate-handles_topic18892.html)
-  - [Sample code](http://web.archive.org/web/20161210010928/http://forum.sysinternals.com/uploads/26792/handles.zip) 
+  - [Sample code](http://web.archive.org/web/20161210010928/http://forum.sysinternals.com/uploads/26792/handles.zip)
+- [LockLess](https://github.com/GhostPack/Lockless)

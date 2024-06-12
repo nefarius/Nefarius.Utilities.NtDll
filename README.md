@@ -1,6 +1,4 @@
-<img src="assets/NSS-128x128.png" align="right" />
-
-# Nefarius.Utilities.NtDll
+# <img src="assets/NSS-128x128.png" align="left" />Nefarius.Utilities.NtDll
 
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/nefarius/Nefarius.Utilities.NtDll/dotnet.yml) ![Requirements](https://img.shields.io/badge/Requires-.NET%20Standard%202.0-blue.svg) [![Nuget](https://img.shields.io/nuget/v/Nefarius.Utilities.NtDll)](https://www.nuget.org/packages/Nefarius.Utilities.NtDll/) [![Nuget](https://img.shields.io/nuget/dt/Nefarius.Utilities.NtDll)](https://www.nuget.org/packages/Nefarius.Utilities.NtDll/)
 

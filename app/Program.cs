@@ -1,10 +1,18 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
+using System.Diagnostics;
+
 using Nefarius.Utilities.DeviceManagement.PnP;
 using Nefarius.Utilities.NtDll.Handles;
 using Nefarius.Utilities.NtDll.Objects;
 
-var h = SystemHandle.AllHandles.First(h => h.ProcessId == 31012)?.Name;
+Random random = new();
+
+Process randomProcess = Process.GetProcesses()
+    .OrderBy(p => random.Next())
+    .First(p => p.Id != 4 /* requires elevation */);
+
+string? handleName = SystemHandle.AllHandles.First(h => h.ProcessId == randomProcess.Id)?.Name;
 
 foreach (NtDirectoryObject globalObject in NtDirectoryObject.GlobalObjects.Where(o => o.IsSymbolicLink))
 {
@@ -16,13 +24,12 @@ foreach (NtDirectoryObject globalObject in NtDirectoryObject.GlobalObjects.Where
 
         try
         {
-            var device = PnPDevice.GetInstanceIdFromInterfaceId(globalObject.Path);
-            
+            string? device = PnPDevice.GetInstanceIdFromInterfaceId(globalObject.Path);
+
             Console.WriteLine($"Enumerated device {device}");
         }
         catch
         {
-            continue;
         }
     }
 }

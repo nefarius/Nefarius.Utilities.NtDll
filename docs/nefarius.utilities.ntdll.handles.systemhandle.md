@@ -30,6 +30,8 @@ public static IEnumerable<SystemHandle> AllHandles { get; }
 
 ### <a id="properties-name"/>**Name**
 
+The process name.
+
 ```csharp
 public string Name { get; }
 ```
@@ -38,7 +40,17 @@ public string Name { get; }
 
 [String](https://docs.microsoft.com/en-us/dotnet/api/system.string)<br>
 
+#### Exceptions
+
+[InvalidOperationException](https://docs.microsoft.com/en-us/dotnet/api/system.invalidoperationexception)<br>
+The process the handle belongs to is a system process (PID 4).
+
+[SystemHandleException](./nefarius.utilities.ntdll.handles.systemhandleexception.md)<br>
+Process access or handle duplication failed.
+
 ### <a id="properties-processid"/>**ProcessId**
+
+The unique process ID.
 
 ```csharp
 public uint ProcessId { get; }

@@ -23,6 +23,18 @@ public IDictionary Data { get; }
 
 [IDictionary](https://docs.microsoft.com/en-us/dotnet/api/system.collections.idictionary)<br>
 
+### <a id="properties-errorcode"/>**ErrorCode**
+
+The Win32 error code of the failed call.
+
+```csharp
+public uint ErrorCode { get; }
+```
+
+#### Property Value
+
+[UInt32](https://docs.microsoft.com/en-us/dotnet/api/system.uint32)<br>
+
 ### <a id="properties-helplink"/>**HelpLink**
 
 ```csharp
@@ -82,18 +94,6 @@ public string StackTrace { get; }
 #### Property Value
 
 [String](https://docs.microsoft.com/en-us/dotnet/api/system.string)<br>
-
-### <a id="properties-status"/>**Status**
-
-The NTSTATUS code of the failed call.
-
-```csharp
-public uint Status { get; }
-```
-
-#### Property Value
-
-[UInt32](https://docs.microsoft.com/en-us/dotnet/api/system.uint32)<br>
 
 ### <a id="properties-targetsite"/>**TargetSite**
 

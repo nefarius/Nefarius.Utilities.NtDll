@@ -26,10 +26,11 @@ foreach (NtDirectoryObject globalObject in NtDirectoryObject.GlobalObjects.Where
         {
             string? device = PnPDevice.GetInstanceIdFromInterfaceId(globalObject.Path);
 
-            Console.WriteLine($"Enumerated device {device}");
+            Console.WriteLine($"\tEnumerated device {device}");
         }
         catch
         {
+            // ignored
         }
     }
 }

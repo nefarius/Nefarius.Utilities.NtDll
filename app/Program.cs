@@ -4,7 +4,7 @@ using Nefarius.Utilities.DeviceManagement.PnP;
 using Nefarius.Utilities.NtDll.Handles;
 using Nefarius.Utilities.NtDll.Objects;
 
-var h = SystemHandle.AllHandles.First(h => h.ProcessId == 2468)?.Name;
+var h = SystemHandle.AllHandles.First(h => h.ProcessId == 31012)?.Name;
 
 foreach (NtDirectoryObject globalObject in NtDirectoryObject.GlobalObjects.Where(o => o.IsSymbolicLink))
 {

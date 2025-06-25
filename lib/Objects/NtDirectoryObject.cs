@@ -42,12 +42,12 @@ public sealed class NtDirectoryObject
     /// <summary>
     ///     Gets the object name without the namespace prefix.
     /// </summary>
-    public string Name { get; internal init; }
+    public string Name { get; internal set; }
 
     /// <summary>
     ///     Gets the object type.
     /// </summary>
-    public string TypeName { get; internal init; }
+    public string TypeName { get; internal set; }
 
     /// <summary>
     ///     Gets the full object path including the namespace.

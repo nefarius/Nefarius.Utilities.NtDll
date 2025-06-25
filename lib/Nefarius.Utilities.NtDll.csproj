@@ -11,7 +11,7 @@
         <OutputPath>$(SolutionDir)bin\</OutputPath>
         <Copyright>Copyright © Benjamin Höglinger-Stelzer 2022-2025</Copyright>
         <PackageIcon>NSS-128x128.png</PackageIcon>
-        <PackageIconUrl/>
+        <PackageIconUrl />
         <RepositoryUrl>https://github.com/nefarius/Nefarius.Drivers.NtDll</RepositoryUrl>
         <PackageProjectUrl>https://github.com/nefarius/Nefarius.Drivers.NtDll</PackageProjectUrl>
         <Description>Managed wrappers around NTDLL native APIs on Windows.</Description>
@@ -22,9 +22,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Compile Remove="TestApp\**"/>
-        <EmbeddedResource Remove="TestApp\**"/>
-        <None Remove="TestApp\**"/>
+        <Compile Remove="TestApp\**" />
+        <EmbeddedResource Remove="TestApp\**" />
+        <None Remove="TestApp\**" />
     </ItemGroup>
 
     <ItemGroup>
@@ -35,16 +35,14 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.18-beta">
+        <PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.198">
             <PrivateAssets>all</PrivateAssets>
         </PackageReference>
         <PackageReference Include="MinVer" Version="6.0.0">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="PolySharp" Version="1.15.0">
-            <PrivateAssets>all</PrivateAssets>
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
+        <PackageReference Include="System.Memory" Version="4.6.3" />
+        <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.1.2" />
     </ItemGroup>
 </Project>

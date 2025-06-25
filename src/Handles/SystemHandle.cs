@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -27,18 +28,29 @@ public sealed class SystemHandleException : Exception
 {
     internal SystemHandleException(string message, NTSTATUS status) : base(message)
     {
-        Status = status;
+        ErrorCode = PInvoke.RtlNtStatusToDosError(status);
     }
 
     internal SystemHandleException(string message, WIN32_ERROR error) : base(message)
     {
-        Status = (uint)error;
+        ErrorCode = (uint)error;
     }
 
     /// <summary>
-    ///     The NTSTATUS code of the failed call.
+    ///     The Win32 error code of the failed call.
     /// </summary>
-    public uint Status { get; }
+    public uint ErrorCode { get; }
+
+    /// <inheritdoc />
+    public override string Message
+    {
+        get
+        {
+            Win32Exception win32Exception = new((int)ErrorCode);
+
+            return $"{base.Message} - {win32Exception.Message}";
+        }
+    }
 }
 
 /// <summary>
@@ -53,8 +65,16 @@ public sealed class SystemHandle
         _handle = handle;
     }
 
+    /// <summary>
+    ///     The unique process ID.
+    /// </summary>
     public uint ProcessId => _handle.UniqueProcessId;
 
+    /// <summary>
+    ///     The process name.
+    /// </summary>
+    /// <exception cref="InvalidOperationException">The process the handle belongs to is a system process (PID 4).</exception>
+    /// <exception cref="SystemHandleException">Process access or handle duplication failed.</exception>
     public string Name
     {
         get
@@ -91,7 +111,7 @@ public sealed class SystemHandle
             }
 
             NtObject obj = NtObject.GetFromHandle(dupHandle);
-            
+
             dupHandle.Dispose();
 
             return obj.Name;

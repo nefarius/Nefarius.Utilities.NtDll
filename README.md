@@ -7,6 +7,10 @@
 
 Managed wrappers around NTDLL native APIs on Windows.
 
+## Documentation
+
+[Link to API docs](docs/index.md).
+
 ## Sources & 3rd party credits
 
 - [HOWTO: Enumerate handles](http://web.archive.org/web/20161210010928/http://forum.sysinternals.com/howto-enumerate-handles_topic18892.html)

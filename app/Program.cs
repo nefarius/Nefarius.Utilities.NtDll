@@ -6,13 +6,22 @@ using Nefarius.Utilities.DeviceManagement.PnP;
 using Nefarius.Utilities.NtDll.Handles;
 using Nefarius.Utilities.NtDll.Objects;
 
-Random random = new();
+try
+{
+    Random random = new();
 
-Process randomProcess = Process.GetProcesses()
-    .OrderBy(p => random.Next())
-    .First(p => p.Id != 4 /* requires elevation */);
+    Process randomProcess = Process.GetProcesses()
+        .OrderBy(p => random.Next())
+        .First(p => p.Id != 4 /* requires elevation */);
 
-string? handleName = SystemHandle.AllHandles.First(h => h.ProcessId == randomProcess.Id)?.Name;
+    string? handleName = SystemHandle.AllHandles.First(h => h.ProcessId == randomProcess.Id)?.Name;
+    
+    Console.WriteLine(handleName);
+}
+catch (SystemHandleException shex)
+{
+    Console.WriteLine(shex.Message);
+}
 
 foreach (NtDirectoryObject globalObject in NtDirectoryObject.GlobalObjects.Where(o => o.IsSymbolicLink))
 {

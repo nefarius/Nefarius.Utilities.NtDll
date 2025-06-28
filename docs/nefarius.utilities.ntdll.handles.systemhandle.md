@@ -14,7 +14,7 @@ Inheritance [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) 
 
 ### <a id="properties-allhandles"/>**AllHandles**
 
-Enumerates all open handles on the system.
+Lists all open handles on the system.
 
 ```csharp
 public static IEnumerable<SystemHandle> AllHandles { get; }

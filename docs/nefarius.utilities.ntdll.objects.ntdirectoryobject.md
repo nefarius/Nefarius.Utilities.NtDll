@@ -27,12 +27,12 @@ public string FullName { get; }
 Gets all global objects.
 
 ```csharp
-public static IEnumerable<NtDirectoryObject> GlobalObjects { get; }
+public static IReadOnlyCollection<NtDirectoryObject> GlobalObjects { get; }
 ```
 
 #### Property Value
 
-[IEnumerable&lt;NtDirectoryObject&gt;](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1)<br>
+[IReadOnlyCollection&lt;NtDirectoryObject&gt;](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ireadonlycollection-1)<br>
 
 ### <a id="properties-globalprefix"/>**GlobalPrefix**
 

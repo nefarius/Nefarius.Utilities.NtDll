@@ -124,7 +124,7 @@ public sealed class SystemHandle
     ///     Lists all open handles on the system.
     /// </summary>
     /// <exception cref="SystemHandleException"></exception>
-    public static unsafe IEnumerable<SystemHandle> AllHandles
+    public static unsafe IReadOnlyCollection<SystemHandle> AllHandles
     {
         get
         {
@@ -162,7 +162,10 @@ public sealed class SystemHandle
                     out SYSTEM_HANDLE_TABLE_ENTRY_INFO[] handleItems
                 );
 
-                return handleItems.Select(e => new SystemHandle(e));
+                return handleItems
+                    .Select(e => new SystemHandle(e))
+                    .ToList()
+                    .AsReadOnly();
             }
             finally
             {

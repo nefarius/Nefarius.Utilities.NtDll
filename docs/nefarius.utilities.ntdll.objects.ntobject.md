@@ -32,15 +32,15 @@ public NtObject()
 
 ## Methods
 
-### <a id="methods-getfromhandle"/>**GetFromHandle(SafeFileHandle)**
+### <a id="methods-getfromhandle"/>**GetFromHandle(HANDLE)**
 
 ```csharp
-public static NtObject GetFromHandle(SafeFileHandle handle)
+internal static NtObject GetFromHandle(HANDLE handle)
 ```
 
 #### Parameters
 
-`handle` [SafeFileHandle](https://docs.microsoft.com/en-us/dotnet/api/microsoft.win32.safehandles.safefilehandle)<br>
+`handle` [HANDLE](./windows.win32.foundation.handle.md)<br>
 
 #### Returns
 

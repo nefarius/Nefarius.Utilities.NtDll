@@ -23,3 +23,5 @@ NtQuerySystemInformation
 NtDuplicateObject
 NtQueryObject
 CloseHandle
+DIRECTORY_QUERY
+DIRECTORY_TRAVERSE

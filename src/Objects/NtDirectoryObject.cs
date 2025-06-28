@@ -31,6 +31,9 @@ public sealed class NtDirectoryObjectException : Exception
     public uint Status { get; }
 }
 
+/// <summary>
+///     A generic NT object.
+/// </summary>
 [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
 [SuppressMessage("ReSharper", "UnusedMember.Global")]
 [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
@@ -83,7 +86,7 @@ public sealed class NtDirectoryObject
 
                 NTSTATUS status = PInvoke.NtOpenDirectoryObject(
                     out handle,
-                    Native.DIRECTORY_QUERY | Native.DIRECTORY_TRAVERSE,
+                    PInvoke.DIRECTORY_QUERY | PInvoke.DIRECTORY_TRAVERSE,
                     in attributes
                 );
 

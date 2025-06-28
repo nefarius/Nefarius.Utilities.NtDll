@@ -29,23 +29,41 @@ public sealed class NtSymbolicLinkObjectException : Exception
     public uint Status { get; }
 }
 
+/// <summary>
+///     A symbolic link object.
+/// </summary>
 [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
 [SuppressMessage("ReSharper", "UnusedMember.Global")]
 [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
 public sealed class NtSymbolicLinkObject
 {
+    /// <summary>
+    ///     Gets the target of the symbolic link.
+    /// </summary>
     public string LinkTarget { get; internal set; }
 
+    /// <inheritdoc />
     public override string ToString()
     {
         return LinkTarget;
     }
 
+    /// <summary>
+    ///     Resolves the target for a symbolic link object.
+    /// </summary>
+    /// <param name="obj">The <see cref="NtDirectoryObject" /> to resolve.</param>
+    /// <returns>The resolved <see cref="NtSymbolicLinkObject" />.</returns>
     public static NtSymbolicLinkObject GetLinkTarget(NtDirectoryObject obj)
     {
         return GetLinkTarget(obj.FullName);
     }
 
+    /// <summary>
+    ///     Resolves the target for a symbolic link object.
+    /// </summary>
+    /// <param name="objectName">The name of the object.</param>
+    /// <returns>The resolved <see cref="NtSymbolicLinkObject" />.</returns>
+    /// <exception cref="NtSymbolicLinkObjectException">Probably not a symbolic link object or access issue.</exception>
     public static unsafe NtSymbolicLinkObject GetLinkTarget(string objectName)
     {
         OBJECT_ATTRIBUTES attributes = new();

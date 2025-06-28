@@ -5,6 +5,11 @@ using System.Diagnostics;
 using Nefarius.Utilities.DeviceManagement.PnP;
 using Nefarius.Utilities.NtDll.Handles;
 using Nefarius.Utilities.NtDll.Objects;
+using Nefarius.Utilities.NtDll.Util;
+
+IReadOnlyCollection<SystemHandle>? handles = Process.GetProcessById(22244).GetSystemHandles();
+
+List<string> names = handles.Select(h => h.Name).ToList();
 
 try
 {

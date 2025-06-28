@@ -14,8 +14,9 @@ try
         .OrderBy(p => random.Next())
         .First(p => p.Id != 4 /* requires elevation */);
 
-    string? handleName = SystemHandle.AllHandles.First(h => h.ProcessId == randomProcess.Id)?.Name;
-    
+    string? handleName = SystemHandle.AllHandles
+        .FirstOrDefault(h => h.ProcessId == randomProcess.Id && !string.IsNullOrEmpty(h.Name))?.Name;
+
     Console.WriteLine(handleName);
 }
 catch (SystemHandleException shex)

@@ -64,7 +64,7 @@ public sealed class NtObject
             &sizeRequired
         );
 
-        if (ret != NTSTATUS.STATUS_SUCCESS /* && ret != NTSTATUS.STATUS_BUFFER_OVERFLOW */)
+        if (ret != NTSTATUS.STATUS_SUCCESS && ret != NTSTATUS.STATUS_BUFFER_OVERFLOW)
         {
             throw new NtObjectException("NtQueryObject failed.", ret);
         }

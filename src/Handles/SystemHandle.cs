@@ -10,11 +10,11 @@ using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.System.Threading;
 
-using Microsoft.Win32.SafeHandles;
-
 using Nefarius.Utilities.NtDll.Objects;
 using Nefarius.Utilities.NtDll.Types;
 using Nefarius.Utilities.NtDll.Util;
+
+using SYSTEM_INFORMATION_CLASS = Windows.Wdk.System.SystemInformation.SYSTEM_INFORMATION_CLASS;
 
 namespace Nefarius.Utilities.NtDll.Handles;
 
@@ -75,7 +75,7 @@ public sealed class SystemHandle
     /// </summary>
     /// <exception cref="InvalidOperationException">The process the handle belongs to is a system process (PID 4).</exception>
     /// <exception cref="SystemHandleException">Process access or handle duplication failed.</exception>
-    public string Name
+    public unsafe string Name
     {
         get
         {
@@ -95,11 +95,13 @@ public sealed class SystemHandle
                 throw new SystemHandleException("OpenProcess failed", (WIN32_ERROR)Marshal.GetLastWin32Error());
             }
 
-            NTSTATUS status = Native.NtDuplicateObject(
+            HANDLE dupHandle;
+
+            NTSTATUS status = Windows.Wdk.PInvoke.NtDuplicateObject(
                 process,
-                (IntPtr)_handle.HandleValue,
-                Process.GetCurrentProcess().SafeHandle,
-                out SafeFileHandle dupHandle,
+                (HANDLE)(IntPtr)_handle.HandleValue,
+                (HANDLE)Process.GetCurrentProcess().SafeHandle.DangerousGetHandle(),
+                &dupHandle,
                 0,
                 0,
                 0
@@ -112,17 +114,17 @@ public sealed class SystemHandle
 
             NtObject obj = NtObject.GetFromHandle(dupHandle);
 
-            dupHandle.Dispose();
+            PInvoke.CloseHandle(dupHandle);
 
             return obj.Name;
         }
     }
 
     /// <summary>
-    ///     Enumerates all open handles on the system.
+    ///     Lists all open handles on the system.
     /// </summary>
     /// <exception cref="SystemHandleException"></exception>
-    public static IEnumerable<SystemHandle> AllHandles
+    public static unsafe IEnumerable<SystemHandle> AllHandles
     {
         get
         {
@@ -132,12 +134,13 @@ public sealed class SystemHandle
             try
             {
                 NTSTATUS status;
+                uint returnLength = 0;
 
-                while ((status = Native.NtQuerySystemInformation(
-                           SYSTEM_INFORMATION_CLASS.SystemHandleInformation,
-                           handleInfo,
+                while ((status = Windows.Wdk.PInvoke.NtQuerySystemInformation(
+                           (SYSTEM_INFORMATION_CLASS)Types.SYSTEM_INFORMATION_CLASS.SystemHandleInformation,
+                           handleInfo.ToPointer(),
                            handleInfoSize,
-                           out _
+                           ref returnLength
                        )) == NTSTATUS.STATUS_INFO_LENGTH_MISMATCH)
                 {
                     handleInfoSize *= 2;

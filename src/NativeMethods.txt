@@ -15,3 +15,11 @@ STATUS_*
 OpenProcess
 PROCESS_ACCESS_RIGHTS
 RtlNtStatusToDosError
+NtOpenSymbolicLinkObject
+NtQuerySymbolicLinkObject
+NtOpenDirectoryObject
+NtQueryDirectoryObject
+NtQuerySystemInformation
+NtDuplicateObject
+NtQueryObject
+CloseHandle

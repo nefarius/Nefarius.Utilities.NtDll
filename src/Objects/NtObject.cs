@@ -2,12 +2,9 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 
+using Windows.Wdk;
 using Windows.Wdk.Foundation;
 using Windows.Win32.Foundation;
-
-using Microsoft.Win32.SafeHandles;
-
-using Nefarius.Utilities.NtDll.Types;
 
 namespace Nefarius.Utilities.NtDll.Objects;
 
@@ -40,12 +37,17 @@ public sealed class NtObject
 {
     public string Name { get; internal set; }
 
-    public static unsafe NtObject GetFromHandle(SafeFileHandle handle)
+    internal static unsafe NtObject GetFromHandle(HANDLE handle)
     {
         UNICODE_STRING objName;
         uint sizeRequired = 0;
-        NTSTATUS ret = Native.NtQueryObject(handle, (OBJECT_INFORMATION_CLASS)1, &objName,
-            (uint)Marshal.SizeOf<UNICODE_STRING>(), &sizeRequired);
+        NTSTATUS ret = PInvoke.NtQueryObject(
+            handle,
+            (OBJECT_INFORMATION_CLASS)1,
+            &objName,
+            (uint)Marshal.SizeOf<UNICODE_STRING>(),
+            &sizeRequired
+        );
 
         if (ret != NTSTATUS.STATUS_SUCCESS /* && ret != NTSTATUS.STATUS_BUFFER_OVERFLOW */)
         {
@@ -54,7 +56,7 @@ public sealed class NtObject
 
         char* buffer = stackalloc char[(int)sizeRequired];
 
-        ret = Native.NtQueryObject(handle, (OBJECT_INFORMATION_CLASS)1, buffer, sizeRequired,
+        ret = PInvoke.NtQueryObject(handle, (OBJECT_INFORMATION_CLASS)1, buffer, sizeRequired,
             &sizeRequired);
 
         if (ret != NTSTATUS.STATUS_SUCCESS)

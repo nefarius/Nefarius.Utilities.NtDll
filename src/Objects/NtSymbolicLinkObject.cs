@@ -2,12 +2,10 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 
+using Windows.Wdk;
 using Windows.Wdk.Foundation;
 using Windows.Win32.Foundation;
 
-using Microsoft.Win32.SafeHandles;
-
-using Nefarius.Utilities.NtDll.Types;
 using Nefarius.Utilities.NtDll.Util;
 
 namespace Nefarius.Utilities.NtDll.Objects;
@@ -54,7 +52,11 @@ public sealed class NtSymbolicLinkObject
 
         attributes.Init(objectName);
 
-        NTSTATUS ret = Native.NtOpenSymbolicLinkObject(out SafeFileHandle handle, 0x80000000U, ref attributes);
+        NTSTATUS ret = PInvoke.NtOpenSymbolicLinkObject(
+            out HANDLE handle,
+            0x80000000U,
+            in attributes
+        );
 
         if (ret == NTSTATUS.STATUS_ACCESS_DENIED)
         {
@@ -67,21 +69,22 @@ public sealed class NtSymbolicLinkObject
         }
 
         UNICODE_STRING target = new();
+        uint len = 0;
 
-        ret = Native.NtQuerySymbolicLinkObject(handle, ref target, out int len);
+        ret = PInvoke.NtQuerySymbolicLinkObject(handle, &target, &len);
 
         if (ret != NTSTATUS.STATUS_BUFFER_TOO_SMALL)
         {
             throw new NtSymbolicLinkObjectException("NtQuerySymbolicLinkObject failed.", ret);
         }
 
-        target.Buffer = new PWSTR((char*)Marshal.AllocHGlobal(len * 2));
+        target.Buffer = new PWSTR((char*)Marshal.AllocHGlobal((int)len * 2));
         target.Length = (ushort)(len * 2);
         target.MaximumLength = (ushort)(len * 2);
 
         try
         {
-            ret = Native.NtQuerySymbolicLinkObject(handle, ref target, out len);
+            ret = PInvoke.NtQuerySymbolicLinkObject(handle, &target, &len);
 
             if (ret != NTSTATUS.STATUS_SUCCESS)
             {

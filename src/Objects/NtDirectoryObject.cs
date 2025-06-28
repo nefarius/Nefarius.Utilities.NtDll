@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Runtime.InteropServices;
 
+using Windows.Wdk;
 using Windows.Wdk.Foundation;
 using Windows.Win32.Foundation;
-
-using Microsoft.Win32.SafeHandles;
 
 using Nefarius.Utilities.NtDll.Types;
 using Nefarius.Utilities.NtDll.Util;
@@ -72,20 +70,22 @@ public sealed class NtDirectoryObject
     /// <summary>
     ///     Gets all global objects.
     /// </summary>
-    public static unsafe IEnumerable<NtDirectoryObject> GlobalObjects
+    public static unsafe IReadOnlyCollection<NtDirectoryObject> GlobalObjects
     {
         get
         {
-            SafeFileHandle handle = null;
+            HANDLE handle = HANDLE.Null;
             OBJECT_ATTRIBUTES attributes = new();
 
             try
             {
                 attributes.Init(GlobalPrefix);
 
-                NTSTATUS status = Native.NtOpenDirectoryObject(out handle,
+                NTSTATUS status = PInvoke.NtOpenDirectoryObject(
+                    out handle,
                     Native.DIRECTORY_QUERY | Native.DIRECTORY_TRAVERSE,
-                    ref attributes);
+                    in attributes
+                );
 
                 if (status != NTSTATUS.STATUS_SUCCESS)
                 {
@@ -96,11 +96,19 @@ public sealed class NtDirectoryObject
                 const int buflen = 1024;
                 byte* buffer = stackalloc byte[buflen];
                 bool restart = true;
-                List<NtDirectoryObject> objects = new();
+                List<NtDirectoryObject> objects = [];
 
                 while (true)
                 {
-                    status = Native.NtQueryDirectoryObject(handle, buffer, buflen, false, restart, ref ctx, out _);
+                    uint returnLength = 0;
+                    status = PInvoke.NtQueryDirectoryObject(
+                        handle, buffer,
+                        buflen,
+                        new BOOLEAN(false),
+                        new BOOLEAN(restart),
+                        ref ctx,
+                        &returnLength
+                    );
 
                     if (status >= NTSTATUS.STATUS_SUCCESS)
                     {
@@ -130,12 +138,17 @@ public sealed class NtDirectoryObject
             }
             finally
             {
-                handle?.Dispose();
+                if (handle != HANDLE.Null)
+                {
+                    Windows.Win32.PInvoke.CloseHandle(handle);
+                }
+
                 attributes.Dispose();
             }
         }
     }
 
+    /// <inheritdoc />
     public override string ToString()
     {
         return $"{Name} ({TypeName})";

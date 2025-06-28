@@ -25,7 +25,7 @@ public IDictionary Data { get; }
 
 ### <a id="properties-errorcode"/>**ErrorCode**
 
-The NTSTATUS code of the failed call.
+The Win32 error code of the failed call.
 
 ```csharp
 public uint ErrorCode { get; }

@@ -19,3 +19,7 @@
 - [NtSymbolicLinkObject](./nefarius.utilities.ntdll.objects.ntsymboliclinkobject.md)
 
 - [NtSymbolicLinkObjectException](./nefarius.utilities.ntdll.objects.ntsymboliclinkobjectexception.md)
+
+## Namespace Nefarius.Utilities.NtDll.Util
+
+- [ProcessExtensions](./nefarius.utilities.ntdll.util.processextensions.md)

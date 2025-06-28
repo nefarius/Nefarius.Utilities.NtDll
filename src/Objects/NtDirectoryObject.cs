@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
-using Windows.Wdk;
 using Windows.Wdk.Foundation;
+using Windows.Win32;
 using Windows.Win32.Foundation;
 
 using Nefarius.Utilities.NtDll.Types;
@@ -22,13 +23,24 @@ public sealed class NtDirectoryObjectException : Exception
 {
     internal NtDirectoryObjectException(string message, NTSTATUS status) : base(message)
     {
-        Status = status;
+        ErrorCode = PInvoke.RtlNtStatusToDosError(status);
     }
 
     /// <summary>
     ///     The NTSTATUS code of the failed call.
     /// </summary>
-    public uint Status { get; }
+    public uint ErrorCode { get; }
+
+    /// <inheritdoc />
+    public override string Message
+    {
+        get
+        {
+            Win32Exception win32Exception = new((int)ErrorCode);
+
+            return $"{base.Message} - {win32Exception.Message}";
+        }
+    }
 }
 
 /// <summary>
@@ -84,9 +96,9 @@ public sealed class NtDirectoryObject
             {
                 attributes.Init(GlobalPrefix);
 
-                NTSTATUS status = PInvoke.NtOpenDirectoryObject(
+                NTSTATUS status = Windows.Wdk.PInvoke.NtOpenDirectoryObject(
                     out handle,
-                    PInvoke.DIRECTORY_QUERY | PInvoke.DIRECTORY_TRAVERSE,
+                    Windows.Wdk.PInvoke.DIRECTORY_QUERY | Windows.Wdk.PInvoke.DIRECTORY_TRAVERSE,
                     in attributes
                 );
 
@@ -104,7 +116,7 @@ public sealed class NtDirectoryObject
                 while (true)
                 {
                     uint returnLength = 0;
-                    status = PInvoke.NtQueryDirectoryObject(
+                    status = Windows.Wdk.PInvoke.NtQueryDirectoryObject(
                         handle, buffer,
                         buflen,
                         new BOOLEAN(false),
@@ -143,7 +155,7 @@ public sealed class NtDirectoryObject
             {
                 if (handle != HANDLE.Null)
                 {
-                    Windows.Win32.PInvoke.CloseHandle(handle);
+                    PInvoke.CloseHandle(handle);
                 }
 
                 attributes.Dispose();

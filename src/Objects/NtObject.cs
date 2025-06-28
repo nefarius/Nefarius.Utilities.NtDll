@@ -1,9 +1,10 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 
-using Windows.Wdk;
 using Windows.Wdk.Foundation;
+using Windows.Win32;
 using Windows.Win32.Foundation;
 
 namespace Nefarius.Utilities.NtDll.Objects;
@@ -18,13 +19,24 @@ public sealed class NtObjectException : Exception
 {
     internal NtObjectException(string message, NTSTATUS status) : base(message)
     {
-        Status = status;
+        ErrorCode = PInvoke.RtlNtStatusToDosError(status);
     }
 
     /// <summary>
-    ///     The NTSTATUS code of the failed call.
+    ///     The Win32 error code of the failed call.
     /// </summary>
-    public uint Status { get; }
+    public uint ErrorCode { get; }
+    
+    /// <inheritdoc />
+    public override string Message
+    {
+        get
+        {
+            Win32Exception win32Exception = new((int)ErrorCode);
+
+            return $"{base.Message} - {win32Exception.Message}";
+        }
+    }
 }
 
 /// <summary>
@@ -44,7 +56,7 @@ public sealed class NtObject
     {
         UNICODE_STRING objName;
         uint sizeRequired = 0;
-        NTSTATUS ret = PInvoke.NtQueryObject(
+        NTSTATUS ret = Windows.Wdk.PInvoke.NtQueryObject(
             handle,
             (OBJECT_INFORMATION_CLASS)1,
             &objName,
@@ -59,7 +71,7 @@ public sealed class NtObject
 
         char* buffer = stackalloc char[(int)sizeRequired];
 
-        ret = PInvoke.NtQueryObject(handle, (OBJECT_INFORMATION_CLASS)1, buffer, sizeRequired,
+        ret = Windows.Wdk.PInvoke.NtQueryObject(handle, (OBJECT_INFORMATION_CLASS)1, buffer, sizeRequired,
             &sizeRequired);
 
         if (ret != NTSTATUS.STATUS_SUCCESS)

@@ -1,9 +1,10 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 
-using Windows.Wdk;
 using Windows.Wdk.Foundation;
+using Windows.Win32;
 using Windows.Win32.Foundation;
 
 using Nefarius.Utilities.NtDll.Util;
@@ -20,13 +21,24 @@ public sealed class NtSymbolicLinkObjectException : Exception
 {
     internal NtSymbolicLinkObjectException(string message, NTSTATUS status) : base(message)
     {
-        Status = status;
+        ErrorCode = PInvoke.RtlNtStatusToDosError(status);
     }
 
     /// <summary>
-    ///     The NTSTATUS code of the failed call.
+    ///     The Win32 error code of the failed call.
     /// </summary>
-    public uint Status { get; }
+    public uint ErrorCode { get; }
+
+    /// <inheritdoc />
+    public override string Message
+    {
+        get
+        {
+            Win32Exception win32Exception = new((int)ErrorCode);
+
+            return $"{base.Message} - {win32Exception.Message}";
+        }
+    }
 }
 
 /// <summary>
@@ -70,7 +82,7 @@ public sealed class NtSymbolicLinkObject
 
         attributes.Init(objectName);
 
-        NTSTATUS ret = PInvoke.NtOpenSymbolicLinkObject(
+        NTSTATUS ret = Windows.Wdk.PInvoke.NtOpenSymbolicLinkObject(
             out HANDLE handle,
             0x80000000U,
             in attributes
@@ -89,7 +101,7 @@ public sealed class NtSymbolicLinkObject
         UNICODE_STRING target = new();
         uint len = 0;
 
-        ret = PInvoke.NtQuerySymbolicLinkObject(handle, &target, &len);
+        ret = Windows.Wdk.PInvoke.NtQuerySymbolicLinkObject(handle, &target, &len);
 
         if (ret != NTSTATUS.STATUS_BUFFER_TOO_SMALL)
         {
@@ -102,7 +114,7 @@ public sealed class NtSymbolicLinkObject
 
         try
         {
-            ret = PInvoke.NtQuerySymbolicLinkObject(handle, &target, &len);
+            ret = Windows.Wdk.PInvoke.NtQuerySymbolicLinkObject(handle, &target, &len);
 
             if (ret != NTSTATUS.STATUS_SUCCESS)
             {

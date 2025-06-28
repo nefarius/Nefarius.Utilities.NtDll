@@ -27,7 +27,7 @@ public sealed class NtDirectoryObjectException : Exception
     }
 
     /// <summary>
-    ///     The NTSTATUS code of the failed call.
+    ///     The Win32 error code of the failed call.
     /// </summary>
     public uint ErrorCode { get; }
 

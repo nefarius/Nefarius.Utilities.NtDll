@@ -17,12 +17,12 @@ Inheritance [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) 
 Lists all open handles on the system.
 
 ```csharp
-public static IEnumerable<SystemHandle> AllHandles { get; }
+public static IReadOnlyCollection<SystemHandle> AllHandles { get; }
 ```
 
 #### Property Value
 
-[IEnumerable&lt;SystemHandle&gt;](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1)<br>
+[IReadOnlyCollection&lt;SystemHandle&gt;](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ireadonlycollection-1)<br>
 
 #### Exceptions
 

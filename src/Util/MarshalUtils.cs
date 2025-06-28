@@ -6,10 +6,10 @@ namespace Nefarius.Utilities.NtDll.Util;
 internal static class MarshalUtils
 {
     /// <summary>
-    ///     Enumerates a buffer containing <see cref="T"/> elements and extracts the native <see cref="T"/> instances.
+    ///     Parses a buffer containing <see cref="T"/> elements and extracts the native <see cref="T"/> instances.
     /// </summary>
     /// <param name="unmanagedArray">Start of the array buffer.</param>
-    /// <param name="elementCount">The amount of elements of <see cref="T"/> in <see cref="unmanagedArray"/>.</param>
+    /// <param name="elementCount">The number of elements of <see cref="T"/> in <see cref="unmanagedArray"/>.</param>
     /// <param name="managedArray">An array of extracted managed structure instances.</param>
     /// <typeparam name="T">The type of the extracted structure.</typeparam>
     public static void MarshalUnmanagedArrayToStruct<T>(IntPtr unmanagedArray, int elementCount, out T[] managedArray)
@@ -25,10 +25,10 @@ internal static class MarshalUtils
     }
 
     /// <summary>
-    ///     Enumerates a buffer containing <see cref="T"/> elements and extracts the native <see cref="T"/> instances.
+    ///     Parses a buffer containing <see cref="T"/> elements and extracts the native <see cref="T"/> instances.
     /// </summary>
     /// <param name="unmanagedArray">Start of the array buffer.</param>
-    /// <param name="elementCount">The amount of elements of <see cref="T"/> in <see cref="unmanagedArray"/>.</param>
+    /// <param name="elementCount">The number of elements of <see cref="T"/> in <see cref="unmanagedArray"/>.</param>
     /// <param name="managedArray">An array of extracted managed structure instances.</param>
     /// <typeparam name="T">The type of the extracted structure.</typeparam>
     public static unsafe void MarshalUnmanagedArrayToStruct<T>(byte* unmanagedArray, int elementCount, out T[] managedArray)

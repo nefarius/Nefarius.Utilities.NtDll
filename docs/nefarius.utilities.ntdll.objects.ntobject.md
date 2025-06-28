@@ -14,6 +14,8 @@ Inheritance [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) 
 
 ### <a id="properties-name"/>**Name**
 
+Gets the name of the object.
+
 ```csharp
 public string Name { get; internal set; }
 ```

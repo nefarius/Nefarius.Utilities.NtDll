@@ -2,6 +2,8 @@
 
 Namespace: Nefarius.Utilities.NtDll.Objects
 
+A symbolic link object.
+
 ```csharp
 public sealed class NtSymbolicLinkObject
 ```
@@ -11,6 +13,8 @@ Inheritance [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) 
 ## Properties
 
 ### <a id="properties-linktarget"/>**LinkTarget**
+
+Gets the target of the symbolic link.
 
 ```csharp
 public string LinkTarget { get; internal set; }
@@ -32,6 +36,8 @@ public NtSymbolicLinkObject()
 
 ### <a id="methods-getlinktarget"/>**GetLinkTarget(NtDirectoryObject)**
 
+Resolves the target for a symbolic link object.
+
 ```csharp
 public static NtSymbolicLinkObject GetLinkTarget(NtDirectoryObject obj)
 ```
@@ -39,12 +45,15 @@ public static NtSymbolicLinkObject GetLinkTarget(NtDirectoryObject obj)
 #### Parameters
 
 `obj` [NtDirectoryObject](./nefarius.utilities.ntdll.objects.ntdirectoryobject.md)<br>
+The [NtDirectoryObject](./nefarius.utilities.ntdll.objects.ntdirectoryobject.md) to resolve.
 
 #### Returns
 
-[NtSymbolicLinkObject](./nefarius.utilities.ntdll.objects.ntsymboliclinkobject.md)
+The resolved [NtSymbolicLinkObject](./nefarius.utilities.ntdll.objects.ntsymboliclinkobject.md).
 
 ### <a id="methods-getlinktarget"/>**GetLinkTarget(String)**
+
+Resolves the target for a symbolic link object.
 
 ```csharp
 public static NtSymbolicLinkObject GetLinkTarget(string objectName)
@@ -53,10 +62,16 @@ public static NtSymbolicLinkObject GetLinkTarget(string objectName)
 #### Parameters
 
 `objectName` [String](https://docs.microsoft.com/en-us/dotnet/api/system.string)<br>
+The name of the object.
 
 #### Returns
 
-[NtSymbolicLinkObject](./nefarius.utilities.ntdll.objects.ntsymboliclinkobject.md)
+The resolved [NtSymbolicLinkObject](./nefarius.utilities.ntdll.objects.ntsymboliclinkobject.md).
+
+#### Exceptions
+
+[NtSymbolicLinkObjectException](./nefarius.utilities.ntdll.objects.ntsymboliclinkobjectexception.md)<br>
+Probably not a symbolic link object or access issue.
 
 ### <a id="methods-tostring"/>**ToString()**
 

@@ -2,6 +2,8 @@
 
 Namespace: Nefarius.Utilities.NtDll.Objects
 
+A generic NT object.
+
 ```csharp
 public sealed class NtDirectoryObject
 ```

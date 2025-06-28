@@ -35,6 +35,9 @@ public sealed class NtObjectException : Exception
 [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
 public sealed class NtObject
 {
+    /// <summary>
+    ///     Gets the name of the object.
+    /// </summary>
     public string Name { get; internal set; }
 
     internal static unsafe NtObject GetFromHandle(HANDLE handle)

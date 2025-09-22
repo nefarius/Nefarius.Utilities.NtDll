@@ -24,7 +24,7 @@
         <PackageReference Include="JetBrains.Annotations" Version="2025.2.2">
             <PrivateAssets>all</PrivateAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.205">
+        <PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.207">
             <PrivateAssets>all</PrivateAssets>
         </PackageReference>
         <PackageReference Include="Microsoft.Windows.SDK.Win32Metadata" Version="62.0.23-preview">

@@ -17,7 +17,7 @@ Managed wrappers around NTDLL native APIs on Windows.
 
 ## Testing
 
-See [TESTING.md](TESTING.md) for Unit/CI filters, admin prerequisites, and how tests run in GitHub Actions.
+See [TESTING.md](https://github.com/nefarius/Nefarius.Utilities.NtDll/blob/master/TESTING.md) for Unit/CI filters, admin prerequisites, and how tests run in GitHub Actions.
 
 ## Documentation
 

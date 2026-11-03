@@ -26,6 +26,7 @@ jobs:
           dotnet test Tests/Tests.csproj -c Release
           --settings Tests/ci.runsettings
           --filter "Category=Unit|Category=CI"
+          --blame-hang-timeout 1m
           --logger "trx;LogFileName=test-results.trx"
           --collect:"XPlat Code Coverage"
           --results-directory TestResults

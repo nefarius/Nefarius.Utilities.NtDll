@@ -42,21 +42,26 @@ internal class LiveObjectTests
 
             Assert.That(handles, Is.Not.Empty);
 
-            bool found = handles.Any(handle =>
+            bool found = false;
+            foreach (SystemHandle handle in handles)
             {
+                string name;
                 try
                 {
-                    return handle.Name.Contains(fileName, StringComparison.OrdinalIgnoreCase);
+                    name = handle.Name;
                 }
-                catch (SystemHandleException)
+                catch (Exception)
                 {
-                    return false;
+                    // Some objects reject name queries or return a length the wrapper does not accept.
+                    continue;
                 }
-                catch (InvalidOperationException)
+
+                if (name.Contains(fileName, StringComparison.OrdinalIgnoreCase))
                 {
-                    return false;
+                    found = true;
+                    break;
                 }
-            });
+            }
 
             Assert.That(found, Is.True, $"Expected an open handle whose name contains {fileName}.");
         }

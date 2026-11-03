@@ -79,55 +79,71 @@ public sealed class NtSymbolicLinkObject
     public static unsafe NtSymbolicLinkObject GetLinkTarget(string objectName)
     {
         OBJECT_ATTRIBUTES attributes = new();
-
         attributes.Init(objectName);
 
-        NTSTATUS ret = Windows.Wdk.PInvoke.NtOpenSymbolicLinkObject(
-            out HANDLE handle,
-            0x80000000U,
-            in attributes
-        );
-
-        if (ret == NTSTATUS.STATUS_ACCESS_DENIED)
-        {
-            return null;
-        }
-
-        if (ret != NTSTATUS.STATUS_SUCCESS)
-        {
-            throw new NtSymbolicLinkObjectException("NtOpenSymbolicLinkObject failed.", ret);
-        }
-
-        UNICODE_STRING target = new();
-        uint len = 0;
-
-        ret = Windows.Wdk.PInvoke.NtQuerySymbolicLinkObject(handle, &target, &len);
-
-        if (ret != NTSTATUS.STATUS_BUFFER_TOO_SMALL)
-        {
-            throw new NtSymbolicLinkObjectException("NtQuerySymbolicLinkObject failed.", ret);
-        }
-
-        target.Buffer = new PWSTR((char*)Marshal.AllocHGlobal((int)len * 2));
-        target.Length = (ushort)(len * 2);
-        target.MaximumLength = (ushort)(len * 2);
+        HANDLE handle = default;
+        bool opened = false;
 
         try
         {
-            ret = Windows.Wdk.PInvoke.NtQuerySymbolicLinkObject(handle, &target, &len);
+            NTSTATUS ret = Windows.Wdk.PInvoke.NtOpenSymbolicLinkObject(
+                out handle,
+                0x80000000U,
+                in attributes
+            );
+
+            if (ret == NTSTATUS.STATUS_ACCESS_DENIED)
+            {
+                return null;
+            }
 
             if (ret != NTSTATUS.STATUS_SUCCESS)
+            {
+                throw new NtSymbolicLinkObjectException("NtOpenSymbolicLinkObject failed.", ret);
+            }
+
+            opened = true;
+
+            UNICODE_STRING target = new();
+            uint len = 0;
+
+            ret = Windows.Wdk.PInvoke.NtQuerySymbolicLinkObject(handle, &target, &len);
+
+            if (ret != NTSTATUS.STATUS_BUFFER_TOO_SMALL)
             {
                 throw new NtSymbolicLinkObjectException("NtQuerySymbolicLinkObject failed.", ret);
             }
 
-            NtSymbolicLinkObject slo = new() { LinkTarget = new string(target.Buffer) };
+            target.Buffer = new PWSTR((char*)Marshal.AllocHGlobal((int)len * 2));
+            target.Length = (ushort)(len * 2);
+            target.MaximumLength = (ushort)(len * 2);
 
-            return string.IsNullOrWhiteSpace(slo.LinkTarget) ? null : slo;
+            try
+            {
+                ret = Windows.Wdk.PInvoke.NtQuerySymbolicLinkObject(handle, &target, &len);
+
+                if (ret != NTSTATUS.STATUS_SUCCESS)
+                {
+                    throw new NtSymbolicLinkObjectException("NtQuerySymbolicLinkObject failed.", ret);
+                }
+
+                NtSymbolicLinkObject slo = new() { LinkTarget = new string(target.Buffer) };
+
+                return string.IsNullOrWhiteSpace(slo.LinkTarget) ? null : slo;
+            }
+            finally
+            {
+                Marshal.FreeHGlobal(new IntPtr(target.Buffer));
+            }
         }
         finally
         {
-            Marshal.FreeHGlobal(new IntPtr(target.Buffer));
+            if (opened)
+            {
+                PInvoke.CloseHandle(handle);
+            }
+
+            attributes.Dispose();
         }
     }
 }

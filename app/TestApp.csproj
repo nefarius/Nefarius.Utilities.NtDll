@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <TargetFramework>net9.0</TargetFramework>
+        <TargetFramework>net10.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <IsPackable>false</IsPackable>
@@ -10,7 +10,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Nefarius.Utilities.DeviceManagement" Version="5.2.0"/>
+        <PackageReference Include="Nefarius.Utilities.DeviceManagement" Version="6.2.0"/>
     </ItemGroup>
 
     <ItemGroup>

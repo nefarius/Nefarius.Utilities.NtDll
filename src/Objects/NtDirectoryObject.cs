@@ -117,11 +117,12 @@ public sealed class NtDirectoryObject
                 {
                     uint returnLength = 0;
                     status = Windows.Wdk.PInvoke.NtQueryDirectoryObject(
-                        handle, buffer,
+                        handle,
+                        buffer,
                         buflen,
                         new BOOLEAN(false),
                         new BOOLEAN(restart),
-                        ref ctx,
+                        &ctx,
                         &returnLength
                     );
 

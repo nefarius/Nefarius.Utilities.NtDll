@@ -1,13 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>netstandard2.0;net462;net48;net8.0;net9.0</TargetFrameworks>
+        <TargetFrameworks>netstandard2.0;net462;net48;net8.0;net10.0</TargetFrameworks>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <Version>1.0.0</Version>
-        <RepositoryUrl>https://github.com/nefarius/Nefarius.Drivers.NtDll</RepositoryUrl>
-        <PackageProjectUrl>https://github.com/nefarius/Nefarius.Drivers.NtDll</PackageProjectUrl>
-        <Description>Managed wrappers around NTDLL native APIs on Windows.</Description>
+        <RepositoryUrl>https://github.com/nefarius/Nefarius.Utilities.NtDll</RepositoryUrl>
+        <PackageProjectUrl>https://github.com/nefarius/Nefarius.Utilities.NtDll</PackageProjectUrl>
     </PropertyGroup>
 
     <PropertyGroup>
@@ -15,26 +13,22 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Compile Remove="TestApp\**" />
-        <EmbeddedResource Remove="TestApp\**" />
-        <None Remove="TestApp\**" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <PackageReference Include="JetBrains.Annotations" Version="2025.2.4">
+        <PackageReference Include="JetBrains.Annotations" Version="2026.2.0">
             <PrivateAssets>all</PrivateAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.209">
+        <PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.367">
             <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.Windows.SDK.Win32Metadata" Version="62.0.23-preview">
-            <PrivateAssets>all</PrivateAssets>
-        </PackageReference>
-        <PackageReference Include="MinVer" Version="7.0.0">
+        <PackageReference Include="MinVer" Version="8.0.0">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="System.Memory" Version="4.6.3" />
         <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.1.2" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <InternalsVisibleTo Include="Tests" />
     </ItemGroup>
 </Project>

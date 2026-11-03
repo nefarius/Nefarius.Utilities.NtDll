@@ -22,7 +22,7 @@ internal static class ObjectAttributesExtensions
         IntPtr nameBuffer = Marshal.AllocHGlobal(Marshal.SizeOf<UNICODE_STRING>());
         Marshal.StructureToPtr(name, nameBuffer, false);
 
-        attributes.Attributes = caseInsensitive ? PInvoke.OBJ_CASE_INSENSITIVE : 0U;
+        attributes.Attributes = caseInsensitive ? OBJECT_ATTRIBUTE_FLAGS.OBJ_CASE_INSENSITIVE : 0;
         attributes.Length = (uint)Marshal.SizeOf<OBJECT_ATTRIBUTES>();
         attributes.ObjectName = (UNICODE_STRING*)nameBuffer.ToPointer();
     }

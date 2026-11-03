@@ -6,17 +6,54 @@ on:
       - v*
 
 jobs:
-  deploy:
-    runs-on: ubuntu-latest
+  test-windows:
+    runs-on: windows-latest
+    permissions:
+      contents: read
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Setup .Net SDK
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6
         with:
-          dotnet-version: 9.x
+          dotnet-version: 10.x
+
+      - name: Test Unit and CI suites
+        run: >
+          dotnet test Tests/Tests.csproj -c Release
+          --settings Tests/ci.runsettings
+          --filter "Category=Unit|Category=CI"
+          --blame-hang-timeout 1m
+          --logger "trx;LogFileName=test-results.trx"
+          --collect:"XPlat Code Coverage"
+          --results-directory TestResults
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: test-results-windows
+          path: TestResults/
+
+  deploy:
+    needs: test-windows
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Setup .Net SDK
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: 10.x
 
       - name: Modify README.md for NuGet
         run: |
@@ -28,7 +65,15 @@ jobs:
       - name: Make Nuget Packages
         run: dotnet pack -c Release
 
+      - name: NuGet login (OIDC to temp API key)
+        uses: NuGet/login@8d196754b4036150537f80ac539e15c2f1028841 # v1
+        id: login
+        with:
+          user: Nefarius
+
       - name: Publish To Nuget
-        run: dotnet nuget push bin/*.nupkg -k $NUGET_AUTH_TOKEN -s https://api.nuget.org/v3/index.json
+        run: |
+          dotnet nuget push bin/*.nupkg --skip-duplicate -s https://api.nuget.org/v3/index.json
+          dotnet nuget push bin/*.snupkg --skip-duplicate -s https://api.nuget.org/v3/index.json
         env:
-          NUGET_AUTH_TOKEN: ${{ secrets.NUGET_API_KEY }}
+          NUGET_API_KEY: ${{ steps.login.outputs.NUGET_API_KEY }}

@@ -9,16 +9,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "App", "App", "{6884D606-BC0
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestApp", "app\TestApp.csproj", "{307DEF24-8BF7-4BC6-A398-7D0349E95673}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{3AFFB277-583A-45BC-9DB5-2D497422B40A}"
+EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{146C6A68-B028-41A8-9942-6B3CBCD4CF4C}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
 		LICENSE = LICENSE
+		nuget.config = nuget.config
 		README.md = README.md
+		TESTING.md = TESTING.md
 		.github\workflows\build.yml = .github\workflows\build.yml
 		.github\workflows\generate-docs.yml = .github\workflows\generate-docs.yml
-		.github\workflows\publish-to-baget.yml = .github\workflows\publish-to-baget.yml
 		.github\workflows\publish-to-nuget.yml = .github\workflows\publish-to-nuget.yml
 	EndProjectSection
 EndProject
@@ -36,6 +39,10 @@ Global
 		{307DEF24-8BF7-4BC6-A398-7D0349E95673}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{307DEF24-8BF7-4BC6-A398-7D0349E95673}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{307DEF24-8BF7-4BC6-A398-7D0349E95673}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3AFFB277-583A-45BC-9DB5-2D497422B40A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3AFFB277-583A-45BC-9DB5-2D497422B40A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3AFFB277-583A-45BC-9DB5-2D497422B40A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3AFFB277-583A-45BC-9DB5-2D497422B40A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

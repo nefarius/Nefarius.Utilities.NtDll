@@ -95,28 +95,45 @@ public sealed class SystemHandle
                 throw new SystemHandleException("OpenProcess failed", (WIN32_ERROR)Marshal.GetLastWin32Error());
             }
 
-            HANDLE dupHandle;
+            HANDLE dupHandle = default;
+            bool duplicated = false;
 
-            NTSTATUS status = Windows.Wdk.PInvoke.NtDuplicateObject(
-                process,
-                (HANDLE)(IntPtr)_handle.HandleValue,
-                (HANDLE)Process.GetCurrentProcess().SafeHandle.DangerousGetHandle(),
-                &dupHandle,
-                0,
-                0,
-                0
-            );
-
-            if (status != NTSTATUS.STATUS_SUCCESS)
+            try
             {
-                throw new SystemHandleException("NtDuplicateObject failed", status);
+                NTSTATUS status;
+                using (Process current = Process.GetCurrentProcess())
+                {
+                    status = Windows.Wdk.PInvoke.NtDuplicateObject(
+                        process,
+                        (HANDLE)(IntPtr)_handle.HandleValue,
+                        (HANDLE)current.SafeHandle.DangerousGetHandle(),
+                        &dupHandle,
+                        0,
+                        0,
+                        0
+                    );
+                }
+
+                if (status != NTSTATUS.STATUS_SUCCESS)
+                {
+                    throw new SystemHandleException("NtDuplicateObject failed", status);
+                }
+
+                duplicated = true;
+
+                NtObject obj = NtObject.GetFromHandle(dupHandle);
+
+                return obj.Name;
             }
+            finally
+            {
+                if (duplicated)
+                {
+                    PInvoke.CloseHandle(dupHandle);
+                }
 
-            NtObject obj = NtObject.GetFromHandle(dupHandle);
-
-            PInvoke.CloseHandle(dupHandle);
-
-            return obj.Name;
+                PInvoke.CloseHandle(process);
+            }
         }
     }
 

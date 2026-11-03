@@ -100,15 +100,19 @@ public sealed class SystemHandle
 
             try
             {
-                NTSTATUS status = Windows.Wdk.PInvoke.NtDuplicateObject(
-                    process,
-                    (HANDLE)(IntPtr)_handle.HandleValue,
-                    (HANDLE)Process.GetCurrentProcess().SafeHandle.DangerousGetHandle(),
-                    &dupHandle,
-                    0,
-                    0,
-                    0
-                );
+                NTSTATUS status;
+                using (Process current = Process.GetCurrentProcess())
+                {
+                    status = Windows.Wdk.PInvoke.NtDuplicateObject(
+                        process,
+                        (HANDLE)(IntPtr)_handle.HandleValue,
+                        (HANDLE)current.SafeHandle.DangerousGetHandle(),
+                        &dupHandle,
+                        0,
+                        0,
+                        0
+                    );
+                }
 
                 if (status != NTSTATUS.STATUS_SUCCESS)
                 {

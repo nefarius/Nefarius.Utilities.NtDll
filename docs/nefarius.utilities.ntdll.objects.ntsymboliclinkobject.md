@@ -8,7 +8,7 @@ A symbolic link object.
 public sealed class NtSymbolicLinkObject
 ```
 
-Inheritance [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) → [NtSymbolicLinkObject](./nefarius.utilities.ntdll.objects.ntsymboliclinkobject.md)
+Inheritance [Object](https://learn.microsoft.com/dotnet/api/system.object) → [NtSymbolicLinkObject](./nefarius.utilities.ntdll.objects.ntsymboliclinkobject.md)
 
 ## Properties
 
@@ -22,7 +22,7 @@ public string LinkTarget { get; internal set; }
 
 #### Property Value
 
-[String](https://docs.microsoft.com/en-us/dotnet/api/system.string)<br>
+[String](https://learn.microsoft.com/dotnet/api/system.string)<br>
 
 ## Constructors
 
@@ -61,7 +61,7 @@ public static NtSymbolicLinkObject GetLinkTarget(string objectName)
 
 #### Parameters
 
-`objectName` [String](https://docs.microsoft.com/en-us/dotnet/api/system.string)<br>
+`objectName` [String](https://learn.microsoft.com/dotnet/api/system.string)<br>
 The name of the object.
 
 #### Returns
@@ -81,4 +81,4 @@ public string ToString()
 
 #### Returns
 
-[String](https://docs.microsoft.com/en-us/dotnet/api/system.string)
+[String](https://learn.microsoft.com/dotnet/api/system.string)

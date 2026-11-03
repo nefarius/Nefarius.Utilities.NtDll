@@ -2,13 +2,14 @@
 
 Namespace: Nefarius.Utilities.NtDll.Util
 
-Extends  type.
+Extends [Process](https://learn.microsoft.com/dotnet/api/system.diagnostics.process) type.
 
 ```csharp
 public static class ProcessExtensions
 ```
 
-Inheritance [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) → [ProcessExtensions](./nefarius.utilities.ntdll.util.processextensions.md)
+Inheritance [Object](https://learn.microsoft.com/dotnet/api/system.object) → [ProcessExtensions](./nefarius.utilities.ntdll.util.processextensions.md)<br>
+Attributes [ExtensionAttribute](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.extensionattribute)
 
 ## Methods
 
@@ -22,8 +23,8 @@ public static IReadOnlyCollection<SystemHandle> GetSystemHandles(Process process
 
 #### Parameters
 
-`process` Process<br>
-The  to enumerate.
+`process` [Process](https://learn.microsoft.com/dotnet/api/system.diagnostics.process)<br>
+The [Process](https://learn.microsoft.com/dotnet/api/system.diagnostics.process) to enumerate.
 
 #### Returns
 

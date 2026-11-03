@@ -8,7 +8,7 @@ Represents a handle.
 public sealed class SystemHandle
 ```
 
-Inheritance [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) → [SystemHandle](./nefarius.utilities.ntdll.handles.systemhandle.md)
+Inheritance [Object](https://learn.microsoft.com/dotnet/api/system.object) → [SystemHandle](./nefarius.utilities.ntdll.handles.systemhandle.md)
 
 ## Properties
 
@@ -22,7 +22,7 @@ public static IReadOnlyCollection<SystemHandle> AllHandles { get; }
 
 #### Property Value
 
-[IReadOnlyCollection&lt;SystemHandle&gt;](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ireadonlycollection-1)<br>
+[IReadOnlyCollection](https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlycollection-1)<[SystemHandle](./nefarius.utilities.ntdll.handles.systemhandle.md)><br>
 
 #### Exceptions
 
@@ -38,11 +38,11 @@ public string Name { get; }
 
 #### Property Value
 
-[String](https://docs.microsoft.com/en-us/dotnet/api/system.string)<br>
+[String](https://learn.microsoft.com/dotnet/api/system.string)<br>
 
 #### Exceptions
 
-[InvalidOperationException](https://docs.microsoft.com/en-us/dotnet/api/system.invalidoperationexception)<br>
+[InvalidOperationException](https://learn.microsoft.com/dotnet/api/system.invalidoperationexception)<br>
 The process the handle belongs to is a system process (PID 4).
 
 [SystemHandleException](./nefarius.utilities.ntdll.handles.systemhandleexception.md)<br>
@@ -58,4 +58,4 @@ public uint ProcessId { get; }
 
 #### Property Value
 
-[UInt32](https://docs.microsoft.com/en-us/dotnet/api/system.uint32)<br>
+[UInt32](https://learn.microsoft.com/dotnet/api/system.uint32)<br>

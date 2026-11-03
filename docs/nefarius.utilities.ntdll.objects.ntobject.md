@@ -8,7 +8,7 @@ Represents an NT Object.
 public sealed class NtObject
 ```
 
-Inheritance [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) → [NtObject](./nefarius.utilities.ntdll.objects.ntobject.md)
+Inheritance [Object](https://learn.microsoft.com/dotnet/api/system.object) → [NtObject](./nefarius.utilities.ntdll.objects.ntobject.md)
 
 ## Properties
 
@@ -22,7 +22,7 @@ public string Name { get; internal set; }
 
 #### Property Value
 
-[String](https://docs.microsoft.com/en-us/dotnet/api/system.string)<br>
+[String](https://learn.microsoft.com/dotnet/api/system.string)<br>
 
 ## Constructors
 

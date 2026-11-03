@@ -8,7 +8,7 @@ A generic NT object.
 public sealed class NtDirectoryObject
 ```
 
-Inheritance [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) → [NtDirectoryObject](./nefarius.utilities.ntdll.objects.ntdirectoryobject.md)
+Inheritance [Object](https://learn.microsoft.com/dotnet/api/system.object) → [NtDirectoryObject](./nefarius.utilities.ntdll.objects.ntdirectoryobject.md)
 
 ## Properties
 
@@ -22,7 +22,7 @@ public string FullName { get; }
 
 #### Property Value
 
-[String](https://docs.microsoft.com/en-us/dotnet/api/system.string)<br>
+[String](https://learn.microsoft.com/dotnet/api/system.string)<br>
 
 ### <a id="properties-globalobjects"/>**GlobalObjects**
 
@@ -34,7 +34,7 @@ public static IReadOnlyCollection<NtDirectoryObject> GlobalObjects { get; }
 
 #### Property Value
 
-[IReadOnlyCollection&lt;NtDirectoryObject&gt;](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ireadonlycollection-1)<br>
+[IReadOnlyCollection](https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlycollection-1)<[NtDirectoryObject](./nefarius.utilities.ntdll.objects.ntdirectoryobject.md)><br>
 
 ### <a id="properties-globalprefix"/>**GlobalPrefix**
 
@@ -46,7 +46,7 @@ public static string GlobalPrefix { get; }
 
 #### Property Value
 
-[String](https://docs.microsoft.com/en-us/dotnet/api/system.string)<br>
+[String](https://learn.microsoft.com/dotnet/api/system.string)<br>
 
 ### <a id="properties-issymboliclink"/>**IsSymbolicLink**
 
@@ -58,7 +58,7 @@ public bool IsSymbolicLink { get; }
 
 #### Property Value
 
-[Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)<br>
+[Boolean](https://learn.microsoft.com/dotnet/api/system.boolean)<br>
 
 ### <a id="properties-name"/>**Name**
 
@@ -70,7 +70,7 @@ public string Name { get; internal set; }
 
 #### Property Value
 
-[String](https://docs.microsoft.com/en-us/dotnet/api/system.string)<br>
+[String](https://learn.microsoft.com/dotnet/api/system.string)<br>
 
 ### <a id="properties-path"/>**Path**
 
@@ -82,7 +82,7 @@ public string Path { get; }
 
 #### Property Value
 
-[String](https://docs.microsoft.com/en-us/dotnet/api/system.string)<br>
+[String](https://learn.microsoft.com/dotnet/api/system.string)<br>
 
 ### <a id="properties-typename"/>**TypeName**
 
@@ -94,7 +94,7 @@ public string TypeName { get; internal set; }
 
 #### Property Value
 
-[String](https://docs.microsoft.com/en-us/dotnet/api/system.string)<br>
+[String](https://learn.microsoft.com/dotnet/api/system.string)<br>
 
 ## Constructors
 
@@ -114,4 +114,4 @@ public string ToString()
 
 #### Returns
 
-[String](https://docs.microsoft.com/en-us/dotnet/api/system.string)
+[String](https://learn.microsoft.com/dotnet/api/system.string)
